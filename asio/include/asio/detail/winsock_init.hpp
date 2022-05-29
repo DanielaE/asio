@@ -112,7 +112,9 @@ winsock_init_base::data winsock_init<Major, Minor>::data_;
 
 // Static variable to ensure that winsock is initialised before main, and
 // therefore before any other threads can get started.
+#ifndef ASIO_MODULE
 static const winsock_init<>& winsock_init_instance = winsock_init<>(false);
+#endif
 
 } // namespace detail
 } // namespace asio
