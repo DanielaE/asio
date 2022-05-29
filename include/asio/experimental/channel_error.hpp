@@ -36,9 +36,11 @@ enum channel_errors
 extern ASIO_DECL
 const asio::error_category& get_channel_category();
 
+#ifndef ASIO_MODULE
 static const asio::error_category&
   channel_category ASIO_UNUSED_VARIABLE
   = asio::experimental::error::get_channel_category();
+#endif
 
 } // namespace error
 namespace channel_errc {
