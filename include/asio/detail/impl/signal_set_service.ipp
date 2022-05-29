@@ -68,7 +68,7 @@ signal_state* get_signal_state()
   return &state;
 }
 
-void ASIO_VERSIONED_NAME(signal_handler)(int signal_number)
+extern "C" void ASIO_VERSIONED_NAME(signal_handler)(int signal_number)
 {
 #if defined(ASIO_WINDOWS) \
   || defined(ASIO_WINDOWS_RUNTIME) \
