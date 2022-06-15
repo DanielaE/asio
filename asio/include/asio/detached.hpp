@@ -82,13 +82,13 @@ public:
   /// Function helper to adapt an I/O object to use @c detached_t as its
   /// default completion token type.
   template <typename T>
-  static typename decay<T>::type::template rebind_executor<
-      executor_with_default<typename decay<T>::type::executor_type>
+  static typename decay_t<T>::template rebind_executor<
+      executor_with_default<typename decay_t<T>::executor_type>
     >::other
   as_default_on(ASIO_MOVE_ARG(T) object)
   {
-    return typename decay<T>::type::template rebind_executor<
-        executor_with_default<typename decay<T>::type::executor_type>
+    return typename decay_t<T>::template rebind_executor<
+        executor_with_default<typename decay_t<T>::executor_type>
       >::other(ASIO_MOVE_CAST(T)(object));
   }
 };

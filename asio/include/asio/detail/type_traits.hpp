@@ -62,6 +62,7 @@ struct aligned_storage { struct type { alignas(A) unsigned char data[N]; }; };
 using std::alignment_of;
 using std::conditional;
 using std::decay;
+using std::decay_t;
 using std::declval;
 using std::enable_if;
 using std::false_type;
