@@ -68,20 +68,20 @@ struct static_query_trait :
 template <typename T, typename Property>
 struct static_query_trait<T, Property,
   typename void_type<
-    decltype(decay<Property>::type::template static_query_v<T>)
+    decltype(decay_t<Property>::template static_query_v<T>)
   >::type>
 {
   ASIO_STATIC_CONSTEXPR(bool, is_valid = true);
 
   using result_type = decltype(
-      decay<Property>::type::template static_query_v<T>);
+      decay_t<Property>::template static_query_v<T>);
 
   ASIO_STATIC_CONSTEXPR(bool, is_noexcept =
-    noexcept(decay<Property>::type::template static_query_v<T>));
+    noexcept(decay_t<Property>::template static_query_v<T>));
 
   static ASIO_CONSTEXPR result_type value() noexcept(is_noexcept)
   {
-    return decay<Property>::type::template static_query_v<T>;
+    return decay_t<Property>::template static_query_v<T>;
   }
 };
 
