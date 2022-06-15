@@ -58,7 +58,7 @@ struct promise_impl<void(Ts...), Executor, Allocator>
       reinterpret_cast<result_type*>(&result)->~result_type();
   }
 
-  aligned_storage_t<sizeof(result_type), alignof(result_type)> result;
+  alignas(result_type) char result[sizeof(result_type)];
   std::atomic<bool> done{false};
   cancellation_signal cancel;
   Allocator allocator;
