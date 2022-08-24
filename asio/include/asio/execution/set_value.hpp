@@ -387,12 +387,8 @@ const T static_instance<T>::instance = {};
 } // namespace asio_execution_set_value_fn
 namespace asio {
 namespace execution {
-namespace {
-
-static ASIO_CONSTEXPR const asio_execution_set_value_fn::impl&
+inline ASIO_CONSTEXPR const asio_execution_set_value_fn::impl&
   set_value = asio_execution_set_value_fn::static_instance<>::instance;
-
-} // namespace
 
 #if defined(ASIO_HAS_VARIADIC_TEMPLATES)
 

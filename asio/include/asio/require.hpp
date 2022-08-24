@@ -406,12 +406,8 @@ const T static_instance<T>::instance = {};
 
 } // namespace asio_require_fn
 namespace asio {
-namespace {
-
-static ASIO_CONSTEXPR const asio_require_fn::impl&
+inline ASIO_CONSTEXPR const asio_require_fn::impl&
   require = asio_require_fn::static_instance<>::instance;
-
-} // namespace
 
 typedef asio_require_fn::impl require_t;
 
