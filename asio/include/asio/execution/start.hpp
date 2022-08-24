@@ -203,12 +203,8 @@ const T static_instance<T>::instance = {};
 } // namespace asio_execution_start_fn
 namespace asio {
 namespace execution {
-namespace {
-
-static ASIO_CONSTEXPR const asio_execution_start_fn::impl&
+inline ASIO_CONSTEXPR const asio_execution_start_fn::impl&
   start = asio_execution_start_fn::static_instance<>::instance;
-
-} // namespace
 
 template <typename R>
 struct can_start :

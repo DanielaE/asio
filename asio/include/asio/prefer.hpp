@@ -566,12 +566,8 @@ const T static_instance<T>::instance = {};
 
 } // namespace asio_prefer_fn
 namespace asio {
-namespace {
-
-static ASIO_CONSTEXPR const asio_prefer_fn::impl&
+inline ASIO_CONSTEXPR const asio_prefer_fn::impl&
   prefer = asio_prefer_fn::static_instance<>::instance;
-
-} // namespace
 
 typedef asio_prefer_fn::impl prefer_t;
 
