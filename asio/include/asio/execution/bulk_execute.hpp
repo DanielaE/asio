@@ -343,13 +343,9 @@ const T static_instance<T>::instance = {};
 } // namespace asio_execution_bulk_execute_fn
 namespace asio {
 namespace execution {
-namespace {
-
-static ASIO_CONSTEXPR
+inline ASIO_CONSTEXPR
   const asio_execution_bulk_execute_fn::impl& bulk_execute =
     asio_execution_bulk_execute_fn::static_instance<>::instance;
-
-} // namespace
 
 template <typename S, typename F, typename N>
 struct can_bulk_execute :

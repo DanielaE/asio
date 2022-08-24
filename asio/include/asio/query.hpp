@@ -268,12 +268,8 @@ const T static_instance<T>::instance = {};
 
 } // namespace asio_query_fn
 namespace asio {
-namespace {
-
-static ASIO_CONSTEXPR const asio_query_fn::impl&
+inline ASIO_CONSTEXPR const asio_query_fn::impl&
   query = asio_query_fn::static_instance<>::instance;
-
-} // namespace
 
 typedef asio_query_fn::impl query_t;
 
