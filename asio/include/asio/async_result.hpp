@@ -693,45 +693,15 @@ struct async_completion
 namespace detail {
 
 template <typename CompletionToken, ASIO_COMPLETION_SIGNATURES_TPARAMS>
-struct async_result_helper
-  : async_result<typename decay<CompletionToken>::type,
-      ASIO_COMPLETION_SIGNATURES_TARGS>
-{
-};
-
-struct async_result_memfns_base
-{
-  void initiate();
-};
-
-template <typename T>
-struct async_result_memfns_derived
-  : T, async_result_memfns_base
-{
-};
-
-template <typename T, T>
-struct async_result_memfns_check
-{
-};
-
-template <typename>
-char (&async_result_initiate_memfn_helper(...))[2];
-
-template <typename T>
-char async_result_initiate_memfn_helper(
-    async_result_memfns_check<
-      void (async_result_memfns_base::*)(),
-      &async_result_memfns_derived<T>::initiate>*);
+constexpr inline bool async_result_has_initiate_memfn_v =
+  requires(async_result<typename decay<CompletionToken>::type, ASIO_COMPLETION_SIGNATURES_TARGS> ar){
+    { ar.initate() };
+  };
 
 template <typename CompletionToken, ASIO_COMPLETION_SIGNATURES_TPARAMS>
 struct async_result_has_initiate_memfn
-  : integral_constant<bool, sizeof(async_result_initiate_memfn_helper<
-      async_result<typename decay<CompletionToken>::type,
-        ASIO_COMPLETION_SIGNATURES_TARGS>
-    >(0)) != 1>
-{
-};
+  : integral_constant<bool, !async_result_has_initiate_memfn_v<CompletionToken, ASIO_COMPLETION_SIGNATURES_TARGS>>
+{};
 
 } // namespace detail
 
