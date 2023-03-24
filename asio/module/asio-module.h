@@ -18,7 +18,6 @@
 #endif
 
 #define ASIO_NO_DEPRECATED
-#define ASIO_NO_DYNAMIC_BUFFER_V1
 #define ASIO_MODULE
 // #define ASIO_ATTACH_TO_GLOBAL_MODULE
 
@@ -37,9 +36,15 @@
 #include <cerrno>
 #include <chrono>
 #include <compare>
+#include <concepts>
 #include <condition_variable>
 #include <coroutine>
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
 #include <deque>
+#include <exception>
 #include <forward_list>
 #include <functional>
 #include <future>
@@ -47,18 +52,24 @@
 #include <iosfwd>
 #include <istream>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <memory>
 #include <mutex>
+#include <new>
 #include <optional>
 #include <ostream>
 #include <stdexcept>
 #include <stop_token>
 #include <streambuf>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <thread>
 #include <tuple>
+#include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 #include <vector>
