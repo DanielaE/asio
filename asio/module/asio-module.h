@@ -18,7 +18,6 @@
 #endif
 
 #define ASIO_NO_DEPRECATED
-#define ASIO_NO_DYNAMIC_BUFFER_V1
 #define ASIO_MODULE
 // #define ASIO_ATTACH_TO_GLOBAL_MODULE
 
@@ -56,6 +55,7 @@
 #include <stop_token>
 #include <streambuf>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <thread>
 #include <tuple>
