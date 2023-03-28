@@ -50,3 +50,6 @@ export {
 module :private;
 
 #include "asio/impl/src.hpp"
+#if defined(ASIO_USE_SSL)
+#	include "asio/ssl/impl/src.hpp"
+#endif
