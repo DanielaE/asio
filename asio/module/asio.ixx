@@ -32,6 +32,10 @@ export {
 #include "asio/experimental/parallel_group.hpp"
 #include "asio/experimental/promise.hpp"
 #include "asio/experimental/use_coro.hpp"
+
+#if defined(ASIO_USE_SSL)
+#	include <asio/ssl.hpp>
+#endif
 }
 
 #ifdef ASIO_ATTACH_TO_GLOBAL_MODULE
@@ -47,3 +51,6 @@ static const auto & winsock_init_instance = winsock_init<>(false);
 module :private;
 
 #include "asio/impl/src.hpp"
+#if defined(ASIO_USE_SSL)
+#	include "asio/ssl/impl/src.hpp"
+#endif
