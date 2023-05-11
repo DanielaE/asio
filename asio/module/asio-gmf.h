@@ -19,7 +19,6 @@
 
 #define ASIO_NO_DEPRECATED
 #define ASIO_MODULE
-// discouraged: #define ASIO_ATTACH_TO_GLOBAL_MODULE
 
 #include <asio/detail/config.hpp>
 
@@ -38,6 +37,7 @@
 #	include <Windows.h>
 //  do not reorder!
 #	include <MSWSock.h>
+#   include <process.h>
 #else
 #	include <arpa/inet.h>
 #	include <fcntl.h>
@@ -71,6 +71,9 @@
 #endif
 #if defined(ASIO_HAS_EPOLL) and defined(ASIO_HAS_TIMERFD)
 #	include <sys/timerfd.h>
+#endif
+#if defined(ASIO_HAS_PIPE) and defined(ASIO_HAS_IOCP)
+#   include <bcrypt.h>
 #endif
 
 #ifdef ASIO_ENABLE_HANDLER_TRACKING
@@ -128,8 +131,9 @@
 #include <new>
 #include <optional>
 #include <ostream>
+#include <source_location>
+#include <sstream>
 #include <stdexcept>
-#include <stop_token>
 #include <streambuf>
 #include <string>
 #include <string_view>
@@ -142,3 +146,4 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <version>
