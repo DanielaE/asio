@@ -128,6 +128,7 @@
 #include <new>
 #include <optional>
 #include <ostream>
+#include <source_location>
 #include <stdexcept>
 #include <stop_token>
 #include <streambuf>
@@ -142,3 +143,4 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <version>
