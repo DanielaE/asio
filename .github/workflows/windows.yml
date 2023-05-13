@@ -1,0 +1,69 @@
+name: windows
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        # windows-2022 has MSVC 2022 installed:
+        # https://github.com/actions/virtual-environments.
+        os: [windows-2022]
+        platform: [x64]
+        toolset: [v143]
+        standard: [20]
+        shared: [""]
+        build_type: [Debug, Release]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure
+      # Use a bash shell for $GITHUB_WORKSPACE.
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake -A ${{matrix.platform}} -T ${{matrix.toolset}} \
+              -DCMAKE_CXX_STANDARD=${{matrix.standard}} \
+              ${{matrix.shared}} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+              $GITHUB_WORKSPACE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        $threads = (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors
+        cmake --build . --config ${{matrix.build_type}} --parallel $threads
+
+  mingw:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    strategy:
+      matrix:
+        cxx: [ clang++ ]
+        lib: [ libc++, libstdc++ ]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: msys2/setup-msys2@v2
+      with:
+        release: false
+        msystem: ucrt64
+        pacboy: cmake:u ninja:u clang:u libc++:u gcc-libs:u
+    - name: Configure
+      run: |
+        cmake -B ../build -G "Ninja" -DCMAKE_CXX_STANDARD=20 \
+              -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_BUILD_TYPE=Debug
+      env: 
+        CXX: ${{matrix.cxx}}
+        CXXFLAGS: ${{format('-stdlib={0}', matrix.lib)}}
+
+    - name: Build
+      run: cmake --build ../build
