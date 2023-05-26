@@ -26,13 +26,18 @@ target_sources(asio
 )
 target_compile_features(asio PUBLIC cxx_std_20)
 target_include_directories(asio PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 if (MSVC)
 # right, but please don't complain about #includes in the module purview
   target_compile_options(asio PRIVATE /wd5244)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+# I do mean C++23
+  target_compile_options(asio PUBLIC /utf-8 /Zc:__cplusplus /Zc:throwingNew /Zc:inline /Zc:externConstexpr /Zc:templateScope /Zc:checkGwOdr /Zc:enumTypes)
+
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 # I do mean C++20
-  target_compile_options(asio PUBLIC -fsized-deallocation)
+  target_compile_options(asio PUBLIC -fsized-deallocation -faligned-allocation -fchar8_t)
 endif()
+
 if (MINGW)
   target_link_libraries(asio PUBLIC bcrypt mswsock ws2_32)
 endif()
