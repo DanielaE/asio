@@ -28,10 +28,12 @@ multiple_exceptions::multiple_exceptions(
 {
 }
 
-const char* multiple_exceptions::what() const noexcept
+#ifndef ASIO_MODULE
+const char* multiple_exceptions::what() const ASIO_NOEXCEPT_OR_NOTHROW
 {
   return "multiple exceptions";
 }
+#endif
 
 std::exception_ptr multiple_exceptions::first_exception() const
 {
