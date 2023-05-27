@@ -26,12 +26,12 @@ namespace execution {
 bad_executor::bad_executor() ASIO_NOEXCEPT
 {
 }
-
+#ifndef ASIO_MODULE
 const char* bad_executor::what() const ASIO_NOEXCEPT_OR_NOTHROW
 {
   return "bad executor";
 }
-
+#endif
 } // namespace execution
 } // namespace asio
 

@@ -32,7 +32,14 @@ public:
 
   /// Obtain message associated with exception.
   ASIO_DECL virtual const char* what() const
-    ASIO_NOEXCEPT_OR_NOTHROW;
+    ASIO_NOEXCEPT_OR_NOTHROW
+#ifdef ASIO_MODULE
+    {
+      return "bad executor";
+    }
+#else
+    ;
+#endif
 };
 
 } // namespace execution
