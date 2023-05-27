@@ -22,81 +22,6 @@
 
 #include <asio/detail/config.hpp>
 
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#if defined(ASIO_WINDOWS_RUNTIME) // expected to not work at all
-#	include <robuffer.h>
-#	include <windows.storage.streams.h>
-#	include <wrl/implements.h>
-#	include <codecvt>
-#	include <locale>
-#elif defined(ASIO_WINDOWS) or defined(__CYGWIN__)
-#	include <WS2tcpip.h>
-#	include <WinSock2.h>
-#	include <Windows.h>
-//  do not reorder!
-#	include <MSWSock.h>
-#   include <process.h>
-#else
-#	include <arpa/inet.h>
-#	include <fcntl.h>
-#	include <limits.h>
-#	include <net/if.h>
-#	include <netdb.h>
-#	include <netinet/in.h>
-#	include <netinet/tcp.h>
-#	include <poll.h>
-#	include <signal.h>
-#	include <sys/ioctl.h>
-#	include <sys/poll.h>
-#	include <sys/socket.h>
-#	include <sys/uio.h>
-#	include <sys/un.h>
-#	include <termios.h>
-#endif
-
-#ifdef ASIO_HAS_PTHREADS
-#	include <pthread.h>
-#endif
-#if defined(ASIO_HAS_IO_URING)
-#	include <liburing.h>
-#endif
-#if defined(ASIO_HAS_KQUEUE)
-#	include <sys/event.h>
-#	include <sys/time.h>
-#endif
-#if defined(ASIO_HAS_DEV_POLL)
-#	include <sys/devpoll.h>
-#endif
-#if defined(ASIO_HAS_EPOLL) and defined(ASIO_HAS_TIMERFD)
-#	include <sys/timerfd.h>
-#endif
-#if defined(ASIO_HAS_PIPE) and defined(ASIO_HAS_IOCP)
-#   include <bcrypt.h>
-#endif
-
-#ifdef ASIO_ENABLE_HANDLER_TRACKING
-#	include <cstdarg>
-#endif
-
-#if defined(ASIO_USE_SSL)
-#	if defined(ASIO_USE_WOLFSSL)
-#		include <wolfssl/options.h>
-#	endif // defined(ASIO_USE_WOLFSSL)
-
-#	include <openssl/ssl.h>
-#	include <openssl / conf.h>
-#	if !defined(OPENSSL_NO_ENGINE)
-#		include <openssl/engine.h>
-#	endif // !defined(OPENSSL_NO_ENGINE)
-#	include <openssl/dh.h>
-#	include <openssl/err.h>
-#	include <openssl/rsa.h>
-#	include <openssl/x509.h>
-#	include <openssl/x509v3.h>
-#endif
-
 #include <algorithm>
 #include <any>
 #include <array>
@@ -147,3 +72,78 @@
 #include <variant>
 #include <vector>
 #include <version>
+
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#if defined(ASIO_WINDOWS_RUNTIME) // expected to not work at all
+#	include <robuffer.h>
+#	include <windows.storage.streams.h>
+#	include <wrl/implements.h>
+#	include <codecvt>
+#	include <locale>
+#elif defined(ASIO_WINDOWS) or defined(__CYGWIN__)
+#	include <WS2tcpip.h>
+#	include <WinSock2.h>
+#	include <Windows.h>
+//  do not reorder!
+#	include <MSWSock.h>
+#	include <process.h>
+#else
+#	include <arpa/inet.h>
+#	include <fcntl.h>
+#	include <limits.h>
+#	include <net/if.h>
+#	include <netdb.h>
+#	include <netinet/in.h>
+#	include <netinet/tcp.h>
+#	include <poll.h>
+#	include <signal.h>
+#	include <sys/ioctl.h>
+#	include <sys/poll.h>
+#	include <sys/socket.h>
+#	include <sys/uio.h>
+#	include <sys/un.h>
+#	include <termios.h>
+#endif
+
+#ifdef ASIO_HAS_PTHREADS
+#	include <pthread.h>
+#endif
+#if defined(ASIO_HAS_IO_URING)
+#	include <liburing.h>
+#endif
+#if defined(ASIO_HAS_KQUEUE)
+#	include <sys/event.h>
+#	include <sys/time.h>
+#endif
+#if defined(ASIO_HAS_DEV_POLL)
+#	include <sys/devpoll.h>
+#endif
+#if defined(ASIO_HAS_EPOLL) and defined(ASIO_HAS_TIMERFD)
+#	include <sys/timerfd.h>
+#endif
+#if defined(ASIO_HAS_PIPE) and defined(ASIO_HAS_IOCP)
+#	include <bcrypt.h>
+#endif
+
+#ifdef ASIO_ENABLE_HANDLER_TRACKING
+#	include <cstdarg>
+#endif
+
+#if defined(ASIO_USE_SSL)
+#	if defined(ASIO_USE_WOLFSSL)
+#		include <wolfssl/options.h>
+#	endif // defined(ASIO_USE_WOLFSSL)
+
+#	include <openssl/ssl.h>
+#	include <openssl / conf.h>
+#	if !defined(OPENSSL_NO_ENGINE)
+#		include <openssl/engine.h>
+#	endif // !defined(OPENSSL_NO_ENGINE)
+#	include <openssl/dh.h>
+#	include <openssl/err.h>
+#	include <openssl/rsa.h>
+#	include <openssl/x509.h>
+#	include <openssl/x509v3.h>
+#endif
