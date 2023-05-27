@@ -32,8 +32,14 @@ public:
 
   /// Obtain message associated with exception.
   ASIO_DECL virtual const char* what() const
-    noexcept;
-
+    ASIO_NOEXCEPT_OR_NOTHROW
+#ifdef ASIO_MODULE
+    {
+      return "multiple exceptions";
+    }
+#else
+    ;
+#endif
   /// Obtain a pointer to the first exception.
   ASIO_DECL std::exception_ptr first_exception() const;
 
