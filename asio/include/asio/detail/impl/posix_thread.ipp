@@ -66,7 +66,7 @@ void posix_thread::start_thread(func_base* arg)
   }
 }
 
-void* asio_detail_posix_thread_function(void* arg)
+extern "C" void* asio_detail_posix_thread_function(void* arg)
 {
   posix_thread::auto_func_base_ptr func = {
       static_cast<posix_thread::func_base*>(arg) };
