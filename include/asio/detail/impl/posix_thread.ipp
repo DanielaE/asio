@@ -69,7 +69,7 @@ posix_thread::func_base* posix_thread::start_thread(func_base* arg)
   return arg;
 }
 
-void* ASIO_VERSIONED_NAME(detail_posix_thread_function)(void* arg)
+extern "C" void* ASIO_VERSIONED_NAME(detail_posix_thread_function)(void* arg)
 {
   static_cast<posix_thread::func_base*>(arg)->run();
   return 0;
