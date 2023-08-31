@@ -120,8 +120,11 @@
 #if defined(ASIO_HAS_DEV_POLL)
 #	include <sys/devpoll.h>
 #endif
-#if defined(ASIO_HAS_EPOLL) and defined(ASIO_HAS_TIMERFD)
-#	include <sys/timerfd.h>
+#if defined(ASIO_HAS_EPOLL)
+#	include <sys/epoll.h>
+#	if defined(ASIO_HAS_TIMERFD)
+#		include <sys/timerfd.h>
+#	endif
 #endif
 #if defined(ASIO_HAS_PIPE) and defined(ASIO_HAS_IOCP)
 #	include <bcrypt.h>
