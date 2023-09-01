@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #define ASIO_STANDALONE // sorry, Boost-ified Asio is not yet supported
 
 #if defined(_WIN32) and __has_include(<SDKDDKVer.h>)
@@ -125,6 +125,9 @@
 #	if defined(ASIO_HAS_TIMERFD)
 #		include <sys/timerfd.h>
 #	endif
+#endif
+#if defined(ASIO_HAS_EVENTFD)
+#	include <sys/eventfd.h>
 #endif
 #if defined(ASIO_HAS_PIPE) and defined(ASIO_HAS_IOCP)
 #	include <bcrypt.h>
