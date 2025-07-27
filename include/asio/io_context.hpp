@@ -539,7 +539,7 @@ public:
     : Allocator(static_cast<const Allocator&>(other)),
       target_(other.target_)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       if (context_ptr())
         context_ptr()->impl_.work_started();
   }
@@ -549,14 +549,14 @@ public:
     : Allocator(static_cast<Allocator&&>(other)),
       target_(other.target_)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       other.target_ = 0;
   }
 
   /// Destructor.
   ~basic_executor_type() noexcept
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       if (context_ptr())
         context_ptr()->impl_.work_finished();
   }
@@ -972,7 +972,7 @@ private:
     : Allocator(),
       target_(reinterpret_cast<uintptr_t>(&i))
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       context_ptr()->impl_.work_started();
   }
 
@@ -982,7 +982,7 @@ private:
     : Allocator(a),
       target_(reinterpret_cast<uintptr_t>(i) | bits)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       if (context_ptr())
         context_ptr()->impl_.work_started();
   }
