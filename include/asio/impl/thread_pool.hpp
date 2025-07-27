@@ -91,7 +91,7 @@ thread_pool::basic_executor_type<Allocator, Bits>::operator=(
     pool_ = other.pool_;
     allocator_ = other.allocator_;
     bits_ = other.bits_;
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
     {
       if (pool_)
         pool_->scheduler_.work_started();
@@ -113,7 +113,7 @@ thread_pool::basic_executor_type<Allocator, Bits>::operator=(
     pool_ = other.pool_;
     allocator_ = std::move(other.allocator_);
     bits_ = other.bits_;
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
     {
       other.pool_ = 0;
       if (old_thread_pool)
