@@ -162,11 +162,11 @@ struct chrono_time_traits
       const int64_t num = num1 * den2;
       const int64_t den = num2 * den1;
 
-      if (num == 1 && den == 1)
+      if constexpr (num == 1 && den == 1)
         return ticks();
-      else if (num != 1 && den == 1)
+      else if constexpr (num != 1 && den == 1)
         return ticks() * num;
-      else if (num == 1 && period_type::den != 1)
+      else if constexpr (num == 1 && period_type::den != 1)
         return ticks() / den;
       else
         return ticks() * num / den;
