@@ -156,7 +156,7 @@ io_context::basic_executor_type<Allocator, Bits>::operator=(
     static_cast<Allocator&>(*this) = static_cast<const Allocator&>(other);
     io_context* old_io_context = context_ptr();
     target_ = other.target_;
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
     {
       if (context_ptr())
         context_ptr()->impl_.work_started();
@@ -177,7 +177,7 @@ io_context::basic_executor_type<Allocator, Bits>::operator=(
     static_cast<Allocator&>(*this) = static_cast<Allocator&&>(other);
     io_context* old_io_context = context_ptr();
     target_ = other.target_;
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
     {
       other.target_ = 0;
       if (old_io_context)

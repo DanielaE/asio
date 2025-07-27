@@ -243,7 +243,7 @@ public:
       allocator_(other.allocator_),
       bits_(other.bits_)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       if (pool_)
         pool_->scheduler_.work_started();
   }
@@ -254,14 +254,14 @@ public:
       allocator_(static_cast<Allocator&&>(other.allocator_)),
       bits_(other.bits_)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       other.pool_ = 0;
   }
 
   /// Destructor.
   ~basic_executor_type() noexcept
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       if (pool_)
         pool_->scheduler_.work_finished();
   }
@@ -724,7 +724,7 @@ private:
       allocator_(),
       bits_(0)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       pool_->scheduler_.work_started();
   }
 
@@ -735,7 +735,7 @@ private:
       allocator_(a),
       bits_(bits)
   {
-    if (Bits & outstanding_work_tracked)
+    if constexpr (Bits & outstanding_work_tracked)
       if (pool_)
         pool_->scheduler_.work_started();
   }
