@@ -282,12 +282,8 @@ const T static_instance<T>::instance = {};
 
 } // namespace asio_require_concept_fn
 namespace asio {
-namespace {
-
-static constexpr const asio_require_concept_fn::impl&
+inline constexpr const asio_require_concept_fn::impl&
   require_concept = asio_require_concept_fn::static_instance<>::instance;
-
-} // namespace
 
 typedef asio_require_concept_fn::impl require_concept_t;
 
