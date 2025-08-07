@@ -285,13 +285,10 @@ const T static_instance<T>::instance = {};
 } // namespace ASIO_VERSIONED_NAME(require_concept_fn)
 namespace asio {
 ASIO_INLINE_NAMESPACE_BEGIN
-namespace {
 
-static constexpr const ASIO_VERSIONED_NAME(require_concept_fn)::impl&
+inline constexpr const ASIO_VERSIONED_NAME(require_concept_fn)::impl&
   require_concept = ASIO_VERSIONED_NAME(
     require_concept_fn)::static_instance<>::instance;
-
-} // namespace
 
 typedef ASIO_VERSIONED_NAME(require_concept_fn)::impl require_concept_t;
 

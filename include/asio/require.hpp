@@ -375,12 +375,9 @@ const T static_instance<T>::instance = {};
 } // namespace ASIO_VERSIONED_NAME(require_fn)
 namespace asio {
 ASIO_INLINE_NAMESPACE_BEGIN
-namespace {
 
-static constexpr const ASIO_VERSIONED_NAME(require_fn)::impl&
+inline constexpr const ASIO_VERSIONED_NAME(require_fn)::impl&
   require = ASIO_VERSIONED_NAME(require_fn)::static_instance<>::instance;
-
-} // namespace
 
 typedef ASIO_VERSIONED_NAME(require_fn)::impl require_t;
 
