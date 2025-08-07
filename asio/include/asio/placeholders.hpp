@@ -58,17 +58,17 @@ unspecified signal_number;
 
 #else
 
-static ASIO_INLINE_VARIABLE constexpr auto& error
+ASIO_INLINE_VARIABLE constexpr auto& error
   = std::placeholders::_1;
-static ASIO_INLINE_VARIABLE constexpr auto& bytes_transferred
+ASIO_INLINE_VARIABLE constexpr auto& bytes_transferred
   = std::placeholders::_2;
-static ASIO_INLINE_VARIABLE constexpr auto& iterator
+ASIO_INLINE_VARIABLE constexpr auto& iterator
   = std::placeholders::_2;
-static ASIO_INLINE_VARIABLE constexpr auto& results
+ASIO_INLINE_VARIABLE constexpr auto& results
   = std::placeholders::_2;
-static ASIO_INLINE_VARIABLE constexpr auto& endpoint
+ASIO_INLINE_VARIABLE constexpr auto& endpoint
   = std::placeholders::_2;
-static ASIO_INLINE_VARIABLE constexpr auto& signal_number
+ASIO_INLINE_VARIABLE constexpr auto& signal_number
   = std::placeholders::_2;
 
 #endif
