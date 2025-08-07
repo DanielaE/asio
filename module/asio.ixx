@@ -5,6 +5,10 @@ module;
 
 #include "asio-gmf.h"
 
+#ifdef _MSC_VER
+#   pragma warning(disable:4180)
+#endif
+
 export module asio;
 
 #ifdef _MSC_VER
