@@ -143,7 +143,7 @@
 #	endif // defined(ASIO_USE_WOLFSSL)
 
 #	include <openssl/ssl.h>
-#	include <openssl / conf.h>
+#	include <openssl/conf.h>
 #	if !defined(OPENSSL_NO_ENGINE)
 #		include <openssl/engine.h>
 #	endif // !defined(OPENSSL_NO_ENGINE)
