@@ -35,6 +35,23 @@ target_sources(asio
 target_compile_features(asio PUBLIC cxx_std_20)
 target_include_directories(asio PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# Optional SSL support (can be controlled via -DASIO_ENABLE_SSL=OFF to disable)
+option(ASIO_ENABLE_SSL "Enable SSL support for ASIO module" ON)
+
+if(ASIO_ENABLE_SSL)
+  find_package(OpenSSL REQUIRED)
+  target_compile_definitions(asio PUBLIC ASIO_USE_SSL)
+  # Add OpenSSL include directories for module compilation
+  # Use SYSTEM to mark as system headers and PRIVATE for module internal use
+  target_include_directories(asio SYSTEM PRIVATE ${OPENSSL_INCLUDE_DIR})
+  # Also add as PUBLIC for consumers
+  target_include_directories(asio SYSTEM PUBLIC ${OPENSSL_INCLUDE_DIR})
+  target_link_libraries(asio PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+  message(STATUS "ASIO: SSL support enabled with OpenSSL at ${OPENSSL_INCLUDE_DIR}")
+else()
+  message(STATUS "ASIO: SSL support disabled (use -DASIO_ENABLE_SSL=ON to enable)")
+endif()
+
 if (MSVC)
 # right, but please don't complain about #includes in the module purview
   target_compile_options(asio PRIVATE /wd5244)
