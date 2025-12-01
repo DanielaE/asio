@@ -17,7 +17,14 @@
 #	define ASIO_DISABLE_BUFFER_DEBUGGING
 #endif
 
-#define ASIO_NO_DEPRECATED
+#if __has_include(<LibraryCustomizations.h>)
+#   include <LibraryCustomizations.h>
+#else
+#   define ASIO_NO_DEPRECATED
+#   undef ASIO_DEPRECATED_MSG
+#   define ASIO_DISABLE_DEPRECATED_MSG
+#endif
+
 #define ASIO_MODULE
 
 #include <asio/detail/config.hpp>
