@@ -25,6 +25,8 @@
 
 #include "asio/detail/push_options.hpp"
 
+#include <exception> // for std::terminate();
+
 namespace asio {
 namespace detail {
 

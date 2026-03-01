@@ -26,6 +26,10 @@
 
 #include "asio/detail/push_options.hpp"
 
+#if !defined(ASIO_NO_EXCEPTIONS)
+# include <exception> // for std::terminate();
+#endif
+
 namespace asio {
 
 /// Adapts an executor to add inline invocation of the submitted function.

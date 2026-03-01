@@ -1,3 +1,9 @@
+.cache/
+.init
+compile_commands.json
+CMakeUserPresets.json
+stagedir/
+build/
 Makefile
 Makefile.in
 aclocal.m4
