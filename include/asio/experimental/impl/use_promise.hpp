@@ -36,7 +36,7 @@ struct promise_handler;
 } // namespace detail
 } // namespace experimental
 
-#if !defined(GENERATING_DOCUMENTATION)
+#if !defined(GENERATING_DOCUMENTATION) && defined(ASIO_HAS_EXPERIMENTAL_PROMISE)
 
 template <typename Allocator, typename R, typename... Args>
 struct async_result<experimental::use_promise_t<Allocator>, R(Args...)>

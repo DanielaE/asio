@@ -41,10 +41,9 @@ message(
 
 file(
     GLOB_RECURSE _asio_implementation
-    "include/asio/*/*.hpp"
+    "include/asio/*.hpp"
     "include/asio/*.ipp"
 )
-list(FILTER _asio_implementation EXCLUDE REGEX [=[.*/experimental/.*]=])
 
 #==============================
 # asio interface library
@@ -61,7 +60,6 @@ target_compile_features(asio_header INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 # asio module library
 #==============================
 file(GLOB_RECURSE _asio_headers "include/asio/*.hpp")
-list(FILTER _asio_headers EXCLUDE REGEX [=[.*/experimental/.*\.hpp]=])
 list(FILTER _asio_headers EXCLUDE REGEX [=[.*/spawn.*\.hpp]=])
 
 # FIXME: some header in include/asio/detail fails VERIFY_INTERFACE_HEADER_SETS!
