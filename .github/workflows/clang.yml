@@ -31,6 +31,9 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.13" }
 
+      - name: Install libssl-dev
+        run: apt-get update -qq && apt-get install -y -qq libssl-dev
+
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
@@ -47,3 +50,4 @@ jobs:
         run: |
           # export PATH=$HOME/.local/bin:$PATH
           make all
+          make test
