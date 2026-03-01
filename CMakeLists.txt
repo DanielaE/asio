@@ -55,6 +55,7 @@ target_sources(
     INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${_asio_implementation}
 )
 target_compile_features(asio_header INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
+target_compile_definitions(asio_header INTERFACE ASIO_DISABLE_BOOST_CONTEXT_FIBER ASIO_STANDALONE ASIO_NO_DEPRECATED)
 
 #==============================
 # asio module library

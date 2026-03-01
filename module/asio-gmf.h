@@ -1,5 +1,7 @@
 #pragma once
-#define ASIO_STANDALONE // sorry, Boost-ified Asio is not yet supported
+#ifndef ASIO_STANDALONE
+#   define ASIO_STANDALONE // sorry, Boost-ified Asio is not yet supported
+#endif
 
 #if defined(_WIN32) and __has_include(<SDKDDKVer.h>)
 #	include <SDKDDKVer.h>
@@ -20,7 +22,9 @@
 #if __has_include(<LibraryCustomizations.h>)
 #   include <LibraryCustomizations.h>
 #else
-#   define ASIO_NO_DEPRECATED
+#   ifndef ASIO_NO_DEPRECATED
+#       define ASIO_NO_DEPRECATED
+#   endif
 #   undef ASIO_DEPRECATED_MSG
 #   define ASIO_DISABLE_DEPRECATED_MSG
 #endif

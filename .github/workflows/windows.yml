@@ -5,10 +5,15 @@ on: [push, pull_request]
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ${{matrix.os}}
     strategy:
+      fail-fast: false
       matrix:
         # windows-2022 has MSVC 2022 installed:
         # https://github.com/actions/virtual-environments.
@@ -47,6 +52,7 @@ jobs:
       run:
         shell: msys2 {0}
     strategy:
+      fail-fast: false
       matrix:
         cxx: [ clang++ ]
         lib: [ libc++, libstdc++ ]
@@ -61,7 +67,7 @@ jobs:
       run: |
         cmake -B ../build -G "Ninja" -DCMAKE_CXX_STANDARD=20 \
               -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_BUILD_TYPE=Debug
-      env: 
+      env:
         CXX: ${{matrix.cxx}}
         CXXFLAGS: ${{format('-stdlib={0}', matrix.lib)}}
 

@@ -32,9 +32,10 @@ ifeq (${hostSystemName},Darwin)
   # export CXX:=g++-15
   # export GCOV:="gcov"
 else ifeq (${hostSystemName},Linux)
-  export LLVM_DIR:=/usr/lib/llvm-22
-  export PATH:=${LLVM_DIR}/bin:${PATH}
-  export CXX:=clang++-22
+  # TODO(CK): commented out for CI!
+  # export LLVM_DIR:=/usr/lib/llvm-22
+  # export PATH:=${LLVM_DIR}/bin:${PATH}
+  # export CXX:=clang++22
   CMAKE=cmake
 endif
 
