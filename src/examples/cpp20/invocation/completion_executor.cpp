@@ -8,9 +8,14 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
+#ifdef ASIO_HAS_IMPORT_STD
+import std;
+import asio;
+#else
 #include "asio.hpp"
 #include <concepts>
 #include <iostream>
+#endif
 
 using asio::ip::tcp;
 

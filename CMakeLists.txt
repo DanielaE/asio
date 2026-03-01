@@ -166,6 +166,9 @@ if(MINGW)
     target_link_libraries(asio PUBLIC bcrypt mswsock ws2_32)
 endif()
 
+enable_testing()
+add_subdirectory(src/examples)
+
 #
 # Install the libraries and its FILE_SET's.
 #
