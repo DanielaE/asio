@@ -80,6 +80,10 @@
 #include <vector>
 #include <version>
 
+#ifdef ASIO_ENABLE_HANDLER_TRACKING
+#	include <cstdarg>
+#endif
+
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -138,10 +142,6 @@
 #endif
 #if defined(ASIO_HAS_PIPE) and defined(ASIO_HAS_IOCP)
 #	include <bcrypt.h>
-#endif
-
-#ifdef ASIO_ENABLE_HANDLER_TRACKING
-#	include <cstdarg>
 #endif
 
 #if defined(ASIO_USE_SSL)

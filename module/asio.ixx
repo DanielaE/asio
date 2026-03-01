@@ -9,6 +9,10 @@ module;
 #   pragma warning(disable:4180)
 #endif
 
+#ifdef ASIO_HAS_IMPORT_STD
+import std;
+#endif
+
 export module asio;
 
 #ifdef _MSC_VER
@@ -53,6 +57,7 @@ export {
 } // extern "C++"
 #endif
 
+// FIXME: g++-15 error: sorry, unimplemented: private module fragment
 module :private;
 
 #include "asio/impl/src.hpp"
