@@ -32,6 +32,26 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INSTALL_MESSAGE LAZY)
 set(CMAKE_SKIP_TEST_ALL_DEPENDENCY OFF)
 
+# ---------------------------------------------------------------------------
+# Ensure binaries find the correct libstdc++ at runtime when using a
+# non-system GCC (e.g. /opt/gcc-16). Without this, CTest fails because the
+# dynamic linker finds the system's older libstdc++ which lacks required
+# GLIBCXX symbols.
+# ---------------------------------------------------------------------------
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    execute_process(
+        COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libstdc++.so
+        OUTPUT_VARIABLE _gcc_stdcxx_path
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if(_gcc_stdcxx_path)
+        cmake_path(GET _gcc_stdcxx_path PARENT_PATH _gcc_lib_dir)
+        get_filename_component(_gcc_lib_dir "${_gcc_lib_dir}" REALPATH)
+        list(APPEND CMAKE_BUILD_RPATH "${_gcc_lib_dir}")
+        message(STATUS "GCC libstdc++ rpath: ${_gcc_lib_dir}")
+    endif()
+endif()
+
 message(
     STATUS
     "Cmake is: ${CMAKE_VERSION} modules scan: ${CMAKE_CXX_SCAN_FOR_MODULES}"
