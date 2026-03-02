@@ -46,7 +46,7 @@ public:
   {
     // Since this program is single-threaded there is no need to perform any
     // synchronisation when modifying next_allocation_. Use an atomic or other
-    // form of synchronisation when using an exeution context from multiple
+    // form of synchronisation when using an execution context from multiple
     // threads.
     std::size_t space = size + align;
     if (next_allocation_ + space < preallocated_)

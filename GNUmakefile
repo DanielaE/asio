@@ -28,7 +28,7 @@ ifeq (${hostSystemName},Darwin)
 
   # # XXX NOT need! export CMAKE_CXX_STDLIB_MODULES_JSON:=${GCC_DIR}/lib/gcc/current/libstdc++.modules.json
   # # XXX NOT need! export CXXFLAGS:=-stdlib=libstdc++
-  # export LDFLAGS:=-L$(GCC_DIR)/libgcc/current # XXX -lstdc++
+  # export LDFLAGS:=-L$(GCC_DIR)/lib/gcc/current # XXX -lstdc++
   # export CXX:=g++-15
   # export GCOV:="gcov"
 else ifeq (${hostSystemName},Linux)

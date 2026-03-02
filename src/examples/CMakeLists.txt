@@ -4,3 +4,15 @@ add_executable(
 )
 target_link_libraries(example.completion_executor PRIVATE asio::asio)
 add_test(NAME example.completion_executor COMMAND example.completion_executor)
+
+add_library(M STATIC)
+target_sources(
+    M
+    PRIVATE Impl.cpp
+    PUBLIC FILE_SET CXX_MODULES FILES M.cppm interface_part.cppm impl_part.cppm
+)
+target_compile_features(M PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+
+add_executable(example.User User.cpp)
+target_link_libraries(example.User PRIVATE M)
+add_test(NAME example.User COMMAND example.User)
