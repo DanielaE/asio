@@ -69,9 +69,14 @@ posix_thread::func_base* posix_thread::start_thread(func_base* arg)
   return arg;
 }
 
-extern "C" void* asio_detail_posix_thread_function(void* arg)
+void asio_detail_posix_thread_function_wrapper(void* arg)
 {
   static_cast<posix_thread::func_base*>(arg)->run();
+}
+
+extern "C" void* asio_detail_posix_thread_function(void* arg)
+{
+  asio_detail_posix_thread_function_wrapper(arg);
   return 0;
 }
 
