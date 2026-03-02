@@ -58,7 +58,9 @@ export {
 #endif
 
 // FIXME: g++-15 error: sorry, unimplemented: private module fragment
+#ifndef __GNUC__
 module :private;
+#endif
 
 #include "asio/impl/src.hpp"
 #if defined(ASIO_USE_SSL)
