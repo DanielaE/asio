@@ -8,8 +8,8 @@ add_test(NAME example.completion_executor COMMAND example.completion_executor)
 add_library(M STATIC)
 target_sources(
     M
-    PRIVATE Impl.cpp
-    PUBLIC FILE_SET CXX_MODULES FILES M.cppm interface_part.cppm impl_part.cppm
+    PRIVATE Impl.cpp impl_part.cpp
+    PUBLIC FILE_SET CXX_MODULES FILES M.cppm interface_part.cppm
 )
 target_compile_features(M PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 

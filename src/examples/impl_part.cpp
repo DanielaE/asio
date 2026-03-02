@@ -7,8 +7,7 @@ module;
 #include <iostream>
 #include <string_view>
 
-module M:impl_part;
-import :interface_part;
+module M;
 
 constexpr std::string_view W{"World."};
 // MSVC error C7619: cannot export 'World' as module partition 'impl_part' does not contribute to the exported interface of module unit 'M'
