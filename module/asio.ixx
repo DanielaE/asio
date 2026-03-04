@@ -9,11 +9,10 @@ module;
 #   pragma warning(disable:4180)
 #endif
 
+export module asio;
 #ifdef ASIO_HAS_IMPORT_STD
 import std;
 #endif
-
-export module asio;
 
 #ifdef _MSC_VER
 #	pragma comment(lib, "asio.lib")
