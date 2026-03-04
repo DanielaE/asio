@@ -16,13 +16,13 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <functional>
+#include "asio/detail/std/functional.hpp"
 #include "asio/detail/cstdint.hpp"
 #include "asio/ip/address.hpp"
 #include "asio/ip/detail/endpoint.hpp"
 
 #if !defined(ASIO_NO_IOSTREAM)
-# include <iosfwd>
+# include "asio/detail/std/iosfwd.hpp"
 #endif // !defined(ASIO_NO_IOSTREAM)
 
 #include "asio/detail/push_options.hpp"

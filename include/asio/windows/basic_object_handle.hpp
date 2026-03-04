@@ -21,7 +21,7 @@
 #if defined(ASIO_HAS_WINDOWS_OBJECT_HANDLE) \
   || defined(GENERATING_DOCUMENTATION)
 
-#include <utility>
+#include "asio/detail/std/utility.hpp"
 #include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/io_object_impl.hpp"

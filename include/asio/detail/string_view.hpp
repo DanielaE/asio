@@ -20,7 +20,7 @@
 #if defined(ASIO_HAS_STRING_VIEW)
 
 #if defined(ASIO_HAS_STD_STRING_VIEW)
-# include <string_view>
+# include "asio/detail/std/string_view.hpp"
 #elif defined(ASIO_HAS_STD_EXPERIMENTAL_STRING_VIEW)
 # include <experimental/string_view>
 #else // defined(ASIO_HAS_STD_EXPERIMENTAL_STRING_VIEW)

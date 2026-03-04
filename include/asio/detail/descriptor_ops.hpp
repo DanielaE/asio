@@ -21,7 +21,7 @@
   && !defined(ASIO_WINDOWS_RUNTIME) \
   && !defined(__CYGWIN__)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include "asio/error.hpp"
 #include "asio/error_code.hpp"
 #include "asio/detail/cstdint.hpp"

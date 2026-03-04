@@ -16,13 +16,13 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <climits>
-#include <cstddef>
+#include "asio/detail/std/climits.hpp"
+#include "asio/detail/std/cstddef.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/noncopyable.hpp"
 
 #if !defined(ASIO_NO_EXCEPTIONS)
-# include <exception>
+# include "asio/detail/std/exception.hpp"
 # include "asio/multiple_exceptions.hpp"
 #endif // !defined(ASIO_NO_EXCEPTIONS)
 

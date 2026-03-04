@@ -20,7 +20,7 @@
 #include "asio/detail/type_traits.hpp"
 #include "asio/error_code.hpp"
 #include "asio/system_error.hpp"
-#include <exception>
+#include "asio/detail/std/exception.hpp"
 
 #include "asio/detail/push_options.hpp"
 

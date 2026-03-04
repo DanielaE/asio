@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <functional>
-#include <string>
+#include "asio/detail/std/functional.hpp"
+#include "asio/detail/std/string.hpp"
 #include "asio/detail/array.hpp"
 #include "asio/detail/cstdint.hpp"
 #include "asio/detail/socket_types.hpp"
@@ -26,7 +26,7 @@
 #include "asio/error_code.hpp"
 
 #if !defined(ASIO_NO_IOSTREAM)
-# include <iosfwd>
+# include "asio/detail/std/iosfwd.hpp"
 #endif // !defined(ASIO_NO_IOSTREAM)
 
 #include "asio/detail/push_options.hpp"

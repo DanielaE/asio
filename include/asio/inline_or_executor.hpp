@@ -17,7 +17,7 @@
 
 #include "asio/detail/config.hpp"
 #if !defined(ASIO_NO_EXCEPTIONS)
-# include <exception> // use std::terminate();
+# include "asio/detail/std/exception.hpp" // use std::terminate();
 #endif
 #include "asio/detail/non_const_lvalue.hpp"
 #include "asio/detail/type_traits.hpp"

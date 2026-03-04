@@ -18,7 +18,7 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/error.hpp"
 #include "asio/ssl/context.hpp"

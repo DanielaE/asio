@@ -19,11 +19,11 @@
 
 #if !defined(ASIO_NO_IOSTREAM)
 
-#include <algorithm>
-#include <cstring>
-#include <stdexcept>
-#include <streambuf>
-#include <vector>
+#include "asio/detail/std/algorithm.hpp"
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/stdexcept.hpp"
+#include "asio/detail/std/streambuf.hpp"
+#include "asio/detail/std/vector.hpp"
 #include "asio/basic_streambuf_fwd.hpp"
 #include "asio/buffer.hpp"
 #include "asio/detail/limits.hpp"

@@ -17,8 +17,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <optional>
-#include <variant>
+#include "asio/detail/std/optional.hpp"
+#include "asio/detail/std/variant.hpp"
 #include "asio/any_io_executor.hpp"
 
 namespace asio {

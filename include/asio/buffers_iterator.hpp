@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
-#include <iterator>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/iterator.hpp"
 #include "asio/buffer.hpp"
 #include "asio/detail/assert.hpp"
 #include "asio/detail/type_traits.hpp"

@@ -20,7 +20,7 @@
 
 #if defined(ASIO_HAS_LOCAL_SOCKETS)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/error.hpp"

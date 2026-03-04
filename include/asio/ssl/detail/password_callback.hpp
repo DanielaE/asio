@@ -17,8 +17,8 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cstddef>
-#include <string>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/string.hpp"
 #include "asio/ssl/context_base.hpp"
 
 #include "asio/detail/push_options.hpp"

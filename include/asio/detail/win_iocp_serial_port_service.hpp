@@ -20,7 +20,7 @@
 
 #if defined(ASIO_HAS_IOCP) && defined(ASIO_HAS_SERIAL_PORT)
 
-#include <string>
+#include "asio/detail/std/string.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
 #include "asio/detail/win_iocp_handle_service.hpp"

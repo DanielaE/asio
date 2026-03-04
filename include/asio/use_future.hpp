@@ -21,7 +21,7 @@
 #if defined(ASIO_HAS_STD_FUTURE_CLASS) \
   || defined(GENERATING_DOCUMENTATION)
 
-#include <memory>
+#include "asio/detail/std/memory.hpp"
 #include "asio/detail/type_traits.hpp"
 
 #include "asio/detail/push_options.hpp"

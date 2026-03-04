@@ -1,7 +1,4 @@
 module;
-#ifdef __MINGW64__
-#  include <cwchar> // work around ODR problems with the C standard library
-#endif
 
 #include "asio-gmf.h"
 
@@ -13,6 +10,7 @@ export module asio;
 #ifdef ASIO_HAS_IMPORT_STD
 import std;
 #endif
+#define ASIO_IN_MODULE_PURVIEW
 
 #ifdef _MSC_VER
 #	pragma comment(lib, "asio.lib")

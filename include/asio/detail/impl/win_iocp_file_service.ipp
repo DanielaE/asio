@@ -20,7 +20,7 @@
 #if defined(ASIO_HAS_FILE) \
   && defined(ASIO_HAS_WINDOWS_RANDOM_ACCESS_HANDLE)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include <sys/stat.h>
 #include "asio/detail/memory.hpp"
 #include "asio/detail/win_iocp_file_service.hpp"

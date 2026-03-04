@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include "asio/associated_cancellation_slot.hpp"
 #include "asio/cancellation_type.hpp"
 #include "asio/config.hpp"
@@ -34,8 +34,8 @@
 #include "asio/detail/wait_op.hpp"
 
 #if defined(ASIO_WINDOWS_RUNTIME)
-# include <chrono>
-# include <thread>
+# include "asio/detail/std/chrono.hpp"
+# include "asio/detail/std/thread.hpp"
 #endif // defined(ASIO_WINDOWS_RUNTIME)
 
 #include "asio/detail/push_options.hpp"

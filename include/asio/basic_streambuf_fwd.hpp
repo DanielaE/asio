@@ -19,7 +19,7 @@
 
 #if !defined(ASIO_NO_IOSTREAM)
 
-#include <memory>
+#include "asio/detail/std/memory.hpp"
 
 namespace asio {
 

@@ -19,8 +19,8 @@
 
 #if !defined(ASIO_NO_IOSTREAM)
 
-#include <istream>
-#include <ostream>
+#include "asio/detail/std/istream.hpp"
+#include "asio/detail/std/ostream.hpp"
 #include "asio/basic_socket_streambuf.hpp"
 
 #include "asio/detail/push_options.hpp"

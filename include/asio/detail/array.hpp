@@ -17,7 +17,7 @@
 
 #include "asio/detail/config.hpp"
 
-#include <array>
+#include "asio/detail/std/array.hpp"
 
 namespace asio {
 namespace detail {

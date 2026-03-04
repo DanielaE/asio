@@ -18,9 +18,9 @@
 #include "asio/detail/config.hpp"
 #include "asio/buffer.hpp"
 #include "asio/detail/assert.hpp"
-#include <cstddef>
-#include <cstring>
-#include <vector>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/vector.hpp"
 
 #include "asio/detail/push_options.hpp"
 

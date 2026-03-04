@@ -19,10 +19,10 @@
 
 #if defined(ASIO_WINDOWS_RUNTIME)
 
-#include <codecvt>
-#include <cstdlib>
-#include <future>
-#include <locale>
+#include "asio/detail/std/codecvt.hpp"
+#include "asio/detail/std/cstdlib.hpp"
+#include "asio/detail/std/future.hpp"
+#include "asio/detail/std/locale.hpp"
 #include <robuffer.h>
 #include <windows.storage.streams.h>
 #include <wrl/implements.h>

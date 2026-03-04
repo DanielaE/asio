@@ -16,9 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <iterator>
-#include <utility>
-#include <vector>
+#include "asio/detail/std/iterator.hpp"
+#include "asio/detail/std/utility.hpp"
+#include "asio/detail/std/vector.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/execution/context.hpp"
 #include "asio/execution/executor.hpp"

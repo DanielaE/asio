@@ -16,6 +16,6 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <limits>
+#include "asio/detail/std/limits.hpp"
 
 #endif // ASIO_DETAIL_LIMITS_HPP

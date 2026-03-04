@@ -20,8 +20,8 @@
 #if defined(ASIO_HAS_PIPE) \
   || defined(GENERATING_DOCUMENTATION)
 
-#include <string>
-#include <utility>
+#include "asio/detail/std/string.hpp"
+#include "asio/detail/std/utility.hpp"
 #include "asio/any_io_executor.hpp"
 #include "asio/async_result.hpp"
 #include "asio/detail/handler_type_requirements.hpp"

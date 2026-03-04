@@ -21,9 +21,9 @@
 #elif defined(ASIO_WINDOWS_RUNTIME)
 # include <windows.h>
 #else
-# include <cerrno>
-# include <cstring>
-# include <string>
+# include "asio/detail/std/cerrno.hpp"
+# include "asio/detail/std/cstring.hpp"
+# include "asio/detail/std/string.hpp"
 #endif
 #include "asio/detail/local_free_on_block_exit.hpp"
 #include "asio/detail/socket_types.hpp"

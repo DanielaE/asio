@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_PTHREADS)
 
-#include <exception> // use std::terminate();
+#include "asio/detail/std/exception.hpp" // use std::terminate();
 #include "asio/detail/posix_thread.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/error.hpp"

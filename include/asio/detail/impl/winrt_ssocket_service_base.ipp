@@ -19,7 +19,7 @@
 
 #if defined(ASIO_WINDOWS_RUNTIME)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/winrt_ssocket_service_base.hpp"
 #include "asio/detail/winrt_async_op.hpp"
 #include "asio/detail/winrt_utils.hpp"

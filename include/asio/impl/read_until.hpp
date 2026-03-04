@@ -15,10 +15,10 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <utility>
+#include "asio/detail/std/algorithm.hpp"
+#include "asio/detail/std/string.hpp"
+#include "asio/detail/std/vector.hpp"
+#include "asio/detail/std/utility.hpp"
 #include "asio/associator.hpp"
 #include "asio/buffer.hpp"
 #include "asio/buffers_iterator.hpp"

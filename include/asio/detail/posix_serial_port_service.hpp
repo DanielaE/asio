@@ -21,7 +21,7 @@
 #if defined(ASIO_HAS_SERIAL_PORT)
 #if !defined(ASIO_WINDOWS) && !defined(__CYGWIN__)
 
-#include <string>
+#include "asio/detail/std/string.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
 #include "asio/serial_port_base.hpp"

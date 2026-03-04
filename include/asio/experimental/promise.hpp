@@ -27,7 +27,7 @@
 #include "asio/experimental/impl/promise.hpp"
 #include "asio/post.hpp"
 
-#include <algorithm>
+#include "asio/detail/std/algorithm.hpp"
 
 #include "asio/detail/push_options.hpp"
 

@@ -20,7 +20,7 @@
 
 #if defined(ASIO_HAS_SERIAL_PORT)
 
-#include <stdexcept>
+#include "asio/detail/std/stdexcept.hpp"
 #include "asio/error.hpp"
 #include "asio/serial_port_base.hpp"
 #include "asio/detail/throw_exception.hpp"

@@ -20,8 +20,8 @@
 
 #if defined(ASIO_HAS_LOCAL_SOCKETS)
 
-#include <cstddef>
-#include <string>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/string.hpp"
 #include "asio/detail/socket_types.hpp"
 #include "asio/detail/string_view.hpp"
 

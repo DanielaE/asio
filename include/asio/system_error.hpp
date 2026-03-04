@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <system_error>
+#include "asio/detail/std/system_error.hpp"
 
 #include "asio/detail/push_options.hpp"
 

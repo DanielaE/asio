@@ -21,7 +21,7 @@
   && !defined(__CYGWIN__) \
   && !defined(ASIO_WINDOWS_RUNTIME)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/noncopyable.hpp"
 #include "asio/detail/reactor_op_queue.hpp"
 #include "asio/detail/socket_types.hpp"

@@ -18,7 +18,7 @@
 #include "asio/detail/config.hpp"
 
 #if defined(ASIO_WINDOWS_RUNTIME)
-# include <thread>
+# include "asio/detail/std/thread.hpp"
 #elif defined(ASIO_WINDOWS) || defined(__CYGWIN__)
 # include "asio/detail/socket_types.hpp"
 #else

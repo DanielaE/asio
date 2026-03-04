@@ -1,4 +1,6 @@
 #pragma once
+#define ASIO_IN_GMF
+
 #ifndef ASIO_STANDALONE
 #   define ASIO_STANDALONE // sorry, Boost-ified Asio is not yet supported
 #endif
@@ -33,60 +35,11 @@
 
 #include <asio/detail/config.hpp>
 
-#include <algorithm>
-#include <any>
-#include <array>
-#include <atomic>
-#include <cassert>
-#include <cerrno>
-#include <chrono>
-#include <climits>
-#include <compare>
-#include <concepts>
-#include <condition_variable>
-#include <coroutine>
-#include <csignal>
-#include <cstddef>
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <deque>
-#include <exception>
-#include <forward_list>
-#include <functional>
-#include <future>
-#include <ios>
-#include <iosfwd>
-#include <istream>
-#include <iterator>
-#include <limits>
-#include <list>
-#include <memory>
-#include <mutex>
-#include <new>
-#include <optional>
-#include <ostream>
-#include <source_location>
-#include <sstream>
-#include <stdexcept>
-#include <streambuf>
-#include <string>
-#include <string_view>
-#include <system_error>
-#include <thread>
-#include <tuple>
-#include <type_traits>
-#include <typeinfo>
-#include <unordered_map>
-#include <utility>
-#include <variant>
-#include <vector>
-#include <version>
-
-#ifdef ASIO_ENABLE_HANDLER_TRACKING
-#	include <cstdarg>
+#ifndef ASIO_ENABLE_HANDLER_TRACKING
+#	define ASIO_STD_CSTDARG_NO_INCLUDE
 #endif
+
+#include "asio/detail/std/all.hpp"
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -164,3 +117,4 @@
 #	include <openssl/x509.h>
 #	include <openssl/x509v3.h>
 #endif
+#undef ASIO_IN_GMF

@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <stdexcept>
+#include "asio/detail/std/stdexcept.hpp"
 #include "asio/thread_pool.hpp"
 #include "asio/detail/throw_exception.hpp"
 

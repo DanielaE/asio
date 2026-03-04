@@ -23,7 +23,7 @@
 #include "asio/traits/static_query.hpp"
 
 #if defined(ASIO_HAS_STD_ANY)
-# include <any>
+# include "asio/detail/std/any.hpp"
 #endif // defined(ASIO_HAS_STD_ANY)
 
 #include "asio/detail/push_options.hpp"

@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_PTHREADS)
 
-#include <exception>
+#include "asio/detail/std/exception.hpp"
 #include <pthread.h>
 
 #include "asio/detail/push_options.hpp"

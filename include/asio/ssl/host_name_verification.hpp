@@ -17,7 +17,7 @@
 
 #include "asio/detail/config.hpp"
 
-#include <string>
+#include "asio/detail/std/string.hpp"
 #include "asio/ssl/detail/openssl_types.hpp"
 #include "asio/ssl/verify_context.hpp"
 

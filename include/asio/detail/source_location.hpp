@@ -20,7 +20,7 @@
 #if defined(ASIO_HAS_SOURCE_LOCATION)
 
 #if defined(ASIO_HAS_STD_SOURCE_LOCATION)
-# include <source_location>
+# include "asio/detail/std/source_location.hpp"
 #elif defined(ASIO_HAS_STD_EXPERIMENTAL_SOURCE_LOCATION)
 # include <experimental/source_location>
 #else // defined(ASIO_HAS_STD_EXPERIMENTAL_SOURCE_LOCATION)
