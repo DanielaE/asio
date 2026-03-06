@@ -15,7 +15,7 @@ add_executable(
     cpp20/invocation/completion_executor.cpp
 )
 target_link_libraries(example.completion_executor PRIVATE asio::asio)
-if (ASIO_HAS_IMPORT_STD)
+if (ASIO_IMPORT_STD)
   set_property(TARGET example.completion_executor PROPERTY CXX_MODULE_STD ON)
 endif()
 add_test(NAME example.completion_executor COMMAND example.completion_executor)
