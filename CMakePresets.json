@@ -1,0 +1,422 @@
+{
+  "version": 9,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 30,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "cmake-pedantic",
+      "hidden": true,
+      "warnings": {
+        "dev": true,
+        "deprecated": true,
+        "uninitialized": true,
+        "unusedCli": true,
+        "systemVars": false
+      },
+      "errors": {
+        "dev": false,
+        "deprecated": true
+      }
+    },
+    {
+      "name": "dev-base",
+      "hidden": true,
+      "inherits": "cmake-pedantic",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_EXTENSIONS": "ON",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_INSTALL_MESSAGE": "LAZY",
+        "CMAKE_SKIP_TEST_ALL_DEPENDENCY": "OFF",
+        "CMAKE_CXX_SCAN_FOR_MODULES": "ON",
+        "CMAKE_CXX_STANDARD": "20",
+        "ASIO_IMPORT_STD": "OFF"
+      }
+    },
+    {
+      "name": "flags-gcc-clang",
+      "description": "These flags are supported by both GCC and Clang",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-D_GLIBCXX_ASSERTIONS=1 -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast",
+        "CMAKE_EXE_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now,-z,nodlopen",
+        "CMAKE_SHARED_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now,-z,nodlopen"
+      }
+    },
+    {
+      "name": "flags-appleclang",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-fstack-protector-strong -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast"
+      }
+    },
+    {
+      "name": "flags-msvc",
+      "description": "Note that all the flags after /W4 are required for MSVC to conform to the language standard",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "/sdl /guard:cf /utf-8 /diagnostics:caret /w14165 /w44242 /w44254 /w44263 /w34265 /w34287 /w44296 /w44365 /w44388 /w44464 /w14545 /w14546 /w14547 /w14549 /w14555 /w34619 /w34640 /w24826 /w14905 /w14906 /w14928 /w45038 /W4 /permissive- /volatile:iso /Zc:inline /Zc:preprocessor /Zc:enumTypes /Zc:lambda /Zc:__cplusplus /Zc:externConstexpr /Zc:throwingNew /EHsc",
+        "CMAKE_EXE_LINKER_FLAGS": "/machine:x64 /guard:cf",
+        "CMAKE_SHARED_LINKER_FLAGS": "/machine:x64 /guard:cf"
+      }
+    },
+    {
+      "name": "windows-msvc",
+      "inherits": ["dev-base", "flags-msvc"],
+      "displayName": "Windows MSVC",
+      "description": "Base configuration for Windows using MSVC toolchain (requires Developer Command Prompt)",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl",
+        "ASIO_BUILD_EXAMPLES": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "linux-gcc",
+      "inherits": ["dev-base", "flags-gcc-clang"],
+      "displayName": "Linux GCC",
+      "description": "Base configuration for Linux using GCC",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "ASIO_BUILD_EXAMPLES": "ON",
+        "ASIO_IMPORT_STD": "OFF"
+      }
+    },
+    {
+      "name": "linux-clang",
+      "inherits": ["dev-base", "flags-gcc-clang"],
+      "displayName": "Clang",
+      "description": "Base configuration for Clang",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "ASIO_BUILD_EXAMPLES": "ON",
+        "ASIO_IMPORT_STD": "ON"
+      }
+    },
+    {
+      "name": "windows-mingw-clang",
+      "inherits": ["dev-base", "flags-gcc-clang"],
+      "displayName": "Windows MinGW Clang",
+      "description": "Base configuration for Windows using MSYS2 MinGW Clang toolchain",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "ASIO_BUILD_EXAMPLES": "ON",
+        "ASIO_IMPORT_STD": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-msvc-debug",
+      "configurePreset": "windows-msvc",
+      "configuration": "Debug",
+      "displayName": "Debug Build (MSVC)"
+    },
+    {
+      "name": "windows-msvc-release",
+      "configurePreset": "windows-msvc",
+      "configuration": "Release",
+      "displayName": "Release Build (MSVC)"
+    },
+    {
+      "name": "linux-gcc-debug",
+      "configurePreset": "linux-gcc",
+      "configuration": "Debug",
+      "displayName": "Debug Build (GCC)"
+    },
+    {
+      "name": "linux-gcc-release",
+      "configurePreset": "linux-gcc",
+      "configuration": "Release",
+      "displayName": "Release Build (GCC)"
+    },
+    {
+      "name": "linux-clang-debug",
+      "configurePreset": "linux-clang",
+      "configuration": "Debug",
+      "displayName": "Debug Build (Clang)"
+    },
+    {
+      "name": "linux-clang-release",
+      "configurePreset": "linux-clang",
+      "configuration": "Release",
+      "displayName": "Release Build (Clang)"
+    },
+    {
+      "name": "windows-mingw-clang-debug",
+      "configurePreset": "windows-mingw-clang",
+      "configuration": "Debug",
+      "displayName": "Debug Build (MinGW Clang)"
+    },
+    {
+      "name": "windows-mingw-clang-release",
+      "configurePreset": "windows-mingw-clang",
+      "configuration": "Release",
+      "displayName": "Release Build (MinGW Clang)"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-msvc-debug",
+      "configurePreset": "windows-msvc",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "windows-msvc-release",
+      "configurePreset": "windows-msvc",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "linux-gcc-debug",
+      "configurePreset": "linux-gcc",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "linux-gcc-release",
+      "configurePreset": "linux-gcc",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "linux-clang-debug",
+      "configurePreset": "linux-clang",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "linux-clang-release",
+      "configurePreset": "linux-clang",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "windows-mingw-clang-debug",
+      "configurePreset": "windows-mingw-clang",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "windows-mingw-clang-release",
+      "configurePreset": "windows-mingw-clang",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-msvc-debug",
+      "displayName": "Windows MSVC Debug Workflow",
+      "description": "Configure, build, and test in Debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-msvc"
+        },
+        {
+          "type": "build",
+          "name": "windows-msvc-debug"
+        },
+        {
+          "type": "test",
+          "name": "windows-msvc-debug"
+        }
+      ]
+    },
+    {
+      "name": "windows-msvc-release",
+      "displayName": "Windows MSVC Release Workflow",
+      "description": "Configure, build, and test in Release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-msvc"
+        },
+        {
+          "type": "build",
+          "name": "windows-msvc-release"
+        },
+        {
+          "type": "test",
+          "name": "windows-msvc-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-gcc-debug",
+      "displayName": "GCC Debug Workflow",
+      "description": "Configure, build, and test with GCC in Debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-gcc"
+        },
+        {
+          "type": "build",
+          "name": "linux-gcc-debug"
+        },
+        {
+          "type": "test",
+          "name": "linux-gcc-debug"
+        }
+      ]
+    },
+    {
+      "name": "linux-gcc-release",
+      "displayName": "GCC Release Workflow",
+      "description": "Configure, build, and test with GCC in Release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-gcc"
+        },
+        {
+          "type": "build",
+          "name": "linux-gcc-release"
+        },
+        {
+          "type": "test",
+          "name": "linux-gcc-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-clang-debug",
+      "displayName": "Clang Debug Workflow",
+      "description": "Configure, build, and test with Clang in Debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-clang"
+        },
+        {
+          "type": "build",
+          "name": "linux-clang-debug"
+        },
+        {
+          "type": "test",
+          "name": "linux-clang-debug"
+        }
+      ]
+    },
+    {
+      "name": "linux-clang-release",
+      "displayName": "Clang Release Workflow",
+      "description": "Configure, build, and test with Clang in Release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-clang"
+        },
+        {
+          "type": "build",
+          "name": "linux-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "linux-clang-release"
+        }
+      ]
+    },
+    {
+      "name": "windows-mingw-clang-debug",
+      "displayName": "MinGW Clang Debug Workflow",
+      "description": "Configure, build, and test with MinGW Clang in Debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-mingw-clang"
+        },
+        {
+          "type": "build",
+          "name": "windows-mingw-clang-debug"
+        },
+        {
+          "type": "test",
+          "name": "windows-mingw-clang-debug"
+        }
+      ]
+    },
+    {
+      "name": "windows-mingw-clang-release",
+      "displayName": "MinGW Clang Release Workflow",
+      "description": "Configure, build, and test with MinGW Clang in Release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-mingw-clang"
+        },
+        {
+          "type": "build",
+          "name": "windows-mingw-clang-release"
+        },
+        {
+          "type": "test",
+          "name": "windows-mingw-clang-release"
+        }
+      ]
+    }
+  ]
+}

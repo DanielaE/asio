@@ -1,19 +1,8 @@
 cmake_minimum_required(VERSION 3.30...4.3)
 
 # gersemi: off
-if(CMAKE_CXX_STANDARD LESS 20)
-    message( FATAL_ERROR "At least C++20 required but have ${CMAKE_CXX_STANDARD}")
-endif()
 
-# ---------------------------------------------------------------------------
-# check if import std; is supported by CMAKE_CXX_COMPILER
-# ---------------------------------------------------------------------------
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 4.3 AND CMAKE_VERSION VERSION_LESS 4.4)
-    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
-elseif(CMAKE_VERSION VERSION_GREATER_EQUAL 4.2 AND CMAKE_VERSION VERSION_LESS 4.3)
-    set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
-endif()
-# gersemi: on
+include(cmake/enable_import_std.cmake)
 
 project(
     asio
@@ -22,15 +11,6 @@ project(
     LANGUAGES CXX
 )
 
-if(NOT DEFINED CMAKE_CXX_STANDARD)
-    set(CMAKE_CXX_STANDARD 23)
-endif()
-set(CMAKE_CXX_EXTENSIONS ON)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_INSTALL_MESSAGE LAZY)
-set(CMAKE_SKIP_TEST_ALL_DEPENDENCY OFF)
 
 # ---------------------------------------------------------------------------
 # Ensure binaries find the correct libstdc++ at runtime when using a
@@ -69,7 +49,7 @@ file(
 # asio interface library
 #==============================
 add_library(asio_header INTERFACE)
-add_library(asio::asio_header ALIAS asio_header)
+add_library(asio::asio-header ALIAS asio_header)
 target_sources(
     asio_header
     INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${_asio_implementation}
@@ -100,7 +80,7 @@ target_sources(
         FILE_SET modules TYPE CXX_MODULES BASE_DIRS module FILES module/asio.ixx
         FILE_SET HEADERS BASE_DIRS include FILES ${_public_headers}
 )
-target_compile_features(asio PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+target_compile_features(asio PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
 set_target_properties(
     asio
     PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
@@ -109,28 +89,11 @@ target_link_libraries(asio PUBLIC asio_header)
 
 option(ASIO_IMPORT_STD "Enable 'import std;' support for ASIO module" OFF)
 if(ASIO_IMPORT_STD)
-    message(
-        STATUS
-        "CMAKE_CXX_COMPILER_IMPORT_STD=${CMAKE_CXX_COMPILER_IMPORT_STD}"
-    )
-    if(${CMAKE_CXX_STANDARD} IN_LIST CMAKE_CXX_COMPILER_IMPORT_STD)
-        option(
-            ASIO_HAS_IMPORT_STD
-            "Build with import std; is possible and used!"
-            ON
-        )
-        message(STATUS "CMAKE_CXX_MODULE_STD=${CMAKE_CXX_MODULE_STD}")
-    endif()
-    message(STATUS "ASIO_HAS_IMPORT_STD=${ASIO_HAS_IMPORT_STD}")
-endif()
-if(ASIO_HAS_IMPORT_STD)
-    # -------------------------------------------------------------------------
     # Tell CMake that we explicitly want `import std`.
-    # This will initialize the property CXX_MODULE_STD of asio targets to 1
-    # -------------------------------------------------------------------------
+    # This initializes the property CXX_MODULE_STD of asio targets to 1 (requires CMake 3.30+)
     target_compile_definitions(asio PUBLIC ASIO_HAS_IMPORT_STD)
     set_target_properties(asio PROPERTIES CXX_MODULE_STD ON)
-    message(STATUS "Build asio with target PROPERRY CXX_MODULE_STD ON")
+    message(STATUS "Build asio with target PROPERTY CXX_MODULE_STD ON")
 endif()
 
 # Optional SSL support (can be controlled via -DASIO_ENABLE_SSL=OFF to disable)
@@ -139,10 +102,6 @@ if(ASIO_ENABLE_SSL)
     find_package(OpenSSL REQUIRED)
     target_compile_definitions(asio PUBLIC ASIO_USE_SSL)
     # Add OpenSSL include directories for module compilation
-    # Use SYSTEM to mark as system headers and PRIVATE for module internal use
-    target_include_directories(asio SYSTEM PRIVATE ${OPENSSL_INCLUDE_DIR})
-    # Also add as PUBLIC for consumers
-    target_include_directories(asio SYSTEM PUBLIC ${OPENSSL_INCLUDE_DIR})
     target_link_libraries(asio PUBLIC OpenSSL::SSL OpenSSL::Crypto)
     message(
         STATUS
@@ -155,39 +114,17 @@ else()
     )
 endif()
 
-if(MSVC)
-    # right, but please don't complain about #includes in the module purview
-    target_compile_options(asio PRIVATE /wd5244)
-    # I do mean C++23
-    target_compile_options(
-        asio
-        PUBLIC
-            /utf-8
-            /Zc:__cplusplus
-            /Zc:throwingNew
-            /Zc:inline
-            /Zc:externConstexpr
-            /Zc:templateScope
-            /Zc:checkGwOdr
-            /Zc:enumTypes
-    )
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    # I do mean C++20
-    target_compile_options(
-        asio
-        PUBLIC
-            -fsized-deallocation
-            -faligned-allocation
-            -Wno-include-angled-in-module-purview
-    )
-endif()
+
 
 if(MINGW)
     target_link_libraries(asio PUBLIC bcrypt mswsock ws2_32)
 endif()
 
-enable_testing()
-add_subdirectory(src/examples)
+option(ASIO_BUILD_EXAMPLES "Build Asio examples" ${PROJECT_IS_TOP_LEVEL})
+if(ASIO_BUILD_EXAMPLES)
+    enable_testing()
+    add_subdirectory(src/examples)
+endif()
 
 #
 # Install the libraries and its FILE_SET's.

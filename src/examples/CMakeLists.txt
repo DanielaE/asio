@@ -1,3 +1,15 @@
+cmake_minimum_required(VERSION 3.30...4.3)
+
+project(
+    asio_examples
+    DESCRIPTION "Examples for Asio"
+    LANGUAGES CXX
+)
+
+if(NOT TARGET asio::asio)
+    find_package(asio REQUIRED)
+endif()
+
 add_executable(
     example.completion_executor
     cpp20/invocation/completion_executor.cpp
@@ -14,8 +26,9 @@ target_sources(
     PRIVATE Impl.cpp impl_part.cpp
     PUBLIC FILE_SET CXX_MODULES FILES M.cppm interface_part.cppm
 )
-target_compile_features(M PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+target_compile_features(M PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
 
 add_executable(example.User User.cpp)
 target_link_libraries(example.User PRIVATE M)
 add_test(NAME example.User COMMAND example.User)
+    
