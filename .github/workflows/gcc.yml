@@ -1,13 +1,6 @@
 name: GCC
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ develop ]
-  workflow_dispatch:
-  schedule:
-    - cron: "30 15 * * 0"  # Every Sunday at 15:30 UTC
+on: [push, pull_request, workflow_dispatch]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,6 +12,9 @@ jobs:
       fail-fast: false
       matrix:
         version: [15, 16]
+        cxx_config:
+          - { std: 20, import_std: "OFF" }
+          - { std: 23, import_std: "ON" }
 
     runs-on: ubuntu-latest
 
@@ -41,12 +37,18 @@ jobs:
           ninja: 1.13.0
           gcovr: true
 
-      - name: Run test suite
+      - name: Configure CMake
         env:
-          # CXX: g++-${{ matrix.version }}
           CXX: g++
           PATH: $HOME/.local/bin:$PATH
-        run: |
-          # export PATH=$HOME/.local/bin:$PATH
-          make all
-          make test
+        run: cmake --preset linux-gcc -D CMAKE_CXX_STANDARD=${{ matrix.cxx_config.std }} -D ASIO_IMPORT_STD=${{ matrix.cxx_config.import_std }}
+
+      - name: Build
+        env:
+          PATH: $HOME/.local/bin:$PATH
+        run: cmake --build --preset linux-gcc-release
+
+      - name: Test
+        env:
+          PATH: $HOME/.local/bin:$PATH
+        run: ctest --preset linux-gcc-release

@@ -1,6 +1,6 @@
 name: windows
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 permissions:
   contents: read
@@ -15,61 +15,61 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # windows-2022 has MSVC 2022 installed:
-        # https://github.com/actions/virtual-environments.
-        os: [windows-2022]
-        platform: [x64]
-        toolset: [v143]
-        standard: [20]
-        shared: [""]
-        build_type: [Debug, Release]
+        os: [windows-2022, windows-2025]
+        cxx_config:
+          - { std: 20, import_std: "OFF" }
+          - { std: 23, import_std: "ON" }
+        build_type: [debug, release]
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
 
-    - name: Configure
-      # Use a bash shell for $GITHUB_WORKSPACE.
-      shell: bash
-      working-directory: ${{runner.workspace}}/build
-      run: |
-        cmake -A ${{matrix.platform}} -T ${{matrix.toolset}} \
-              -DCMAKE_CXX_STANDARD=${{matrix.standard}} \
-              ${{matrix.shared}} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
-              $GITHUB_WORKSPACE
+      - name: Setup Cpp
+        uses: aminya/setup-cpp@v1
+        with:
+          cmake: 4.2.3
+          ninja: 1.13.0
 
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      run: |
-        $threads = (Get-CimInstance Win32_ComputerSystem).NumberOfLogicalProcessors
-        cmake --build . --config ${{matrix.build_type}} --parallel $threads
+      - name: Build and Test
+        shell: pwsh
+        run: |
+          $vsPath = &"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+          cmd.exe /c "`"$vsPath\VC\Auxiliary\Build\vcvars64.bat`" && cmake --preset windows-msvc -D CMAKE_CXX_STANDARD=${{ matrix.cxx_config.std }} -D ASIO_IMPORT_STD=${{ matrix.cxx_config.import_std }} && cmake --build --preset windows-msvc-${{ matrix.build_type }} && ctest --preset windows-msvc-${{ matrix.build_type }}"
 
-  mingw:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    strategy:
-      fail-fast: false
-      matrix:
-        cxx: [ clang++ ]
-        lib: [ libc++, libstdc++ ]
-    steps:
-    - uses: actions/checkout@v3
-    - uses: msys2/setup-msys2@v2
-      with:
-        release: false
-        msystem: ucrt64
-        pacboy: cmake:u ninja:u clang:u libc++:u gcc-libs:u
-    - name: Configure
-      run: |
-        cmake -B ../build -G "Ninja" -DCMAKE_CXX_STANDARD=20 \
-              -DCMAKE_CXX_EXTENSIONS=OFF -DCMAKE_BUILD_TYPE=Debug
-      env:
-        CXX: ${{matrix.cxx}}
-        CXXFLAGS: ${{format('-stdlib={0}', matrix.lib)}}
-
-    - name: Build
-      run: cmake --build ../build
+  # mingw:
+  #   runs-on: windows-latest
+  #   defaults:
+  #     run:
+  #       shell: msys2 {0}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       cxx: [ clang++ ]
+  #       lib: [ libc++, libstdc++ ]
+  #       cxx_config:
+  #         - { std: 20, import_std: "OFF" }
+  #         - { std: 23, import_std: "ON" }
+  #       build_type: [debug, release]
+  #
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - uses: msys2/setup-msys2@v2
+  #     with:
+  #       release: false
+  #       msystem: ucrt64
+  #       pacboy: cmake:u ninja:u clang:u libc++:u gcc-libs:u
+  #
+  #   - name: Configure CMake
+  #     env:
+  #       CXX: ${{matrix.cxx}}
+  #       CXXFLAGS: ${{format('-stdlib={0}', matrix.lib)}}
+  #     run: cmake --preset windows-mingw-clang -D CMAKE_CXX_STANDARD=${{ matrix.cxx_config.std }} -D ASIO_IMPORT_STD=${{ matrix.cxx_config.import_std }}
+  #
+  #   - name: Build
+  #     run: cmake --build --preset windows-mingw-clang-${{ matrix.build_type }}
+  #
+  #   - name: Test
+  #     run: ctest --preset windows-mingw-clang-${{ matrix.build_type }}
