@@ -27,13 +27,11 @@ cmake_minimum_required(VERSION 3.20)
 # ---------------------------------------------------------------------------
 # dry-run support (aliases: DRY_RUN, DRY_MODE, DRYRUN)
 # ---------------------------------------------------------------------------
-if(DRY_RUN
-   OR DRY_MODE
-   OR DRYRUN)
-  set(IS_DRY_RUN ON)
-  message(STATUS "[dry-run] enabled, no files will be modified")
+if(DRY_RUN OR DRY_MODE OR DRYRUN)
+    set(IS_DRY_RUN ON)
+    message(STATUS "[dry-run] enabled, no files will be modified")
 else()
-  set(IS_DRY_RUN OFF)
+    set(IS_DRY_RUN OFF)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -47,21 +45,72 @@ set(INCLUDE_DIR "${ASIO_ROOT}/include/asio")
 
 # standard c++ headers that must be included for macros (import std; does not provide macros)
 set(MACRO_STD_HEADERS
-    cassert  cerrno  cfloat   climits
-    csetjmp  csignal cstdarg  cstdint
-    ctime    cwchar  version)
+    cassert
+    cerrno
+    cfloat
+    climits
+    csetjmp
+    csignal
+    cstdarg
+    cstdint
+    ctime
+    cwchar
+    version
+)
 
 # standard c++ headers used in asio (keep sorted)
 set(STD_HEADERS
-    algorithm       any             array           atomic          cassert         cctype
-    cerrno          chrono          climits         codecvt         concepts        condition_variable
-    coroutine       csignal         cstdarg         cstddef         cstdint         cstdio
-    cstdlib         cstring         deque           exception       functional      future
-    iosfwd          istream         iterator        limits          list            locale
-    memory          mutex           new             optional        ostream         source_location
-    sstream         stdexcept       streambuf       string          string_view     system_error
-    thread          tuple           type_traits     typeinfo        utility         variant
-    vector          version)
+    algorithm
+    any
+    array
+    atomic
+    cassert
+    cctype
+    cerrno
+    chrono
+    climits
+    codecvt
+    concepts
+    condition_variable
+    coroutine
+    csignal
+    cstdarg
+    cstddef
+    cstdint
+    cstdio
+    cstdlib
+    cstring
+    deque
+    exception
+    functional
+    future
+    iosfwd
+    istream
+    iterator
+    limits
+    list
+    locale
+    memory
+    mutex
+    new
+    optional
+    ostream
+    source_location
+    sstream
+    stdexcept
+    streambuf
+    string
+    string_view
+    system_error
+    thread
+    tuple
+    type_traits
+    typeinfo
+    utility
+    variant
+    vector
+    version
+)
 
 # ---------------------------------------------------------------------------
 # wrapper header template
@@ -98,7 +147,8 @@ import std;
 #  endif
 # endif
 #endif
-]])
+]]
+)
 
 # ---------------------------------------------------------------------------
 # helpers
@@ -106,204 +156,222 @@ import std;
 
 # generate a tilde underline matching "detail/std/<header>.hpp" length
 function(make_tilde_line header out_var)
-  string(LENGTH "${header}" header_len)
-  math(EXPR tilde_count "${header_len} + 18")
-  set(tildes "")
-  foreach(i RANGE 1 ${tilde_count})
-    string(APPEND tildes "~")
-  endforeach()
-  set(${out_var}
-      "${tildes}"
-      PARENT_SCOPE)
+    string(LENGTH "${header}" header_len)
+    math(EXPR tilde_count "${header_len} + 18")
+    set(tildes "")
+    foreach(i RANGE 1 ${tilde_count})
+        string(APPEND tildes "~")
+    endforeach()
+    set(${out_var} "${tildes}" PARENT_SCOPE)
 endfunction()
 
 # collect consumer source files, excluding generated detail/std/
 function(collect_source_files out_var)
-  file(GLOB_RECURSE all_files "${INCLUDE_DIR}/*.hpp" "${INCLUDE_DIR}/*.ipp")
-  set(filtered "")
-  foreach(f ${all_files})
-    string(FIND "${f}" "/detail/std/" pos)
-    if(pos EQUAL -1)
-      list(APPEND filtered "${f}")
-    endif()
-  endforeach()
-  set(${out_var}
-      "${filtered}"
-      PARENT_SCOPE)
+    file(GLOB_RECURSE all_files "${INCLUDE_DIR}/*.hpp" "${INCLUDE_DIR}/*.ipp")
+    set(filtered "")
+    foreach(f ${all_files})
+        string(FIND "${f}" "/detail/std/" pos)
+        if(pos EQUAL -1)
+            list(APPEND filtered "${f}")
+        endif()
+    endforeach()
+    set(${out_var} "${filtered}" PARENT_SCOPE)
 endfunction()
 
 # write only if content changed
 function(write_if_changed file_path content)
-  set(existing_content "")
-  if(EXISTS "${file_path}")
-    file(READ "${file_path}" existing_content)
-  endif()
-
-  if(NOT "${content}" STREQUAL "${existing_content}")
-    if(IS_DRY_RUN)
-      message(STATUS "  [dry-run] would update: ${file_path}")
-    else()
-      file(WRITE "${file_path}" "${content}")
-      message(STATUS "  updated: ${file_path}")
+    set(existing_content "")
+    if(EXISTS "${file_path}")
+        file(READ "${file_path}" existing_content)
     endif()
-  endif()
+
+    if(NOT "${content}" STREQUAL "${existing_content}")
+        if(IS_DRY_RUN)
+            message(STATUS "  [dry-run] would update: ${file_path}")
+        else()
+            file(WRITE "${file_path}" "${content}")
+            message(STATUS "  updated: ${file_path}")
+        endif()
+    endif()
 endfunction()
 
 # mode: check - find unprotected standard includes
 function(do_check)
-  message(STATUS "=== checking for raw standard library includes ===")
-  collect_source_files(source_files)
-  set(found_any OFF)
+    message(STATUS "=== checking for raw standard library includes ===")
+    collect_source_files(source_files)
+    set(found_any OFF)
 
-  foreach(src ${source_files})
-    file(READ "${src}" content)
-    string(REGEX MATCHALL "#[ \t]*include[ \t]*<([^>]+)>" matches "${content}")
-    foreach(match ${matches})
-      string(REGEX REPLACE "#[ \t]*include[ \t]*<([^>]+)>" "\\1" header
-                           "${match}")
-      list(FIND STD_HEADERS "${header}" idx)
-      if(NOT idx EQUAL -1)
-        file(RELATIVE_PATH rel "${ASIO_ROOT}" "${src}")
-        message(WARNING "  found raw include <${header}> in ${rel}")
-        set(found_any ON)
-      endif()
+    foreach(src ${source_files})
+        file(READ "${src}" content)
+        string(
+            REGEX MATCHALL "#[ \t]*include[ \t]*<([^>]+)>"
+            matches
+            "${content}"
+        )
+        foreach(match ${matches})
+            string(
+                REGEX REPLACE "#[ \t]*include[ \t]*<([^>]+)>"
+                "\\1"
+                header
+                "${match}"
+            )
+            list(FIND STD_HEADERS "${header}" idx)
+            if(NOT idx EQUAL -1)
+                file(RELATIVE_PATH rel "${ASIO_ROOT}" "${src}")
+                message(WARNING "  found raw include <${header}> in ${rel}")
+                set(found_any ON)
+            endif()
+        endforeach()
     endforeach()
-  endforeach()
 
-  if(NOT found_any)
-    message(STATUS "  no raw standard includes found.")
-  endif()
+    if(NOT found_any)
+        message(STATUS "  no raw standard includes found.")
+    endif()
 endfunction()
 
 # mode: generate-headers - create detail/std/*.hpp
 function(do_generate_headers)
-  message(STATUS "=== generating wrapper headers ===")
-  if(NOT IS_DRY_RUN)
-    file(MAKE_DIRECTORY "${STD_DIR}")
-  endif()
-
-  foreach(header ${STD_HEADERS})
-    set(out_file "${STD_DIR}/${header}.hpp")
-    make_tilde_line("${header}" tilde_line)
-    string(TOUPPER "${header}" header_upper)
-
-    set(is_macro "0")
-    list(FIND MACRO_STD_HEADERS "${header}" idx)
-    if(NOT idx EQUAL -1)
-      set(is_macro "1")
+    message(STATUS "=== generating wrapper headers ===")
+    if(NOT IS_DRY_RUN)
+        file(MAKE_DIRECTORY "${STD_DIR}")
     endif()
 
-    string(REPLACE "@HEADER@" "${header}" content "${WRAPPER_TEMPLATE}")
-    string(REPLACE "@HEADER_UPPER@" "${header_upper}" content "${content}")
-    string(REPLACE "@TILDE_LINE@" "${tilde_line}" content "${content}")
-    string(REPLACE "@IS_MACRO_HEADER@" "${is_macro}" content "${content}")
+    foreach(header ${STD_HEADERS})
+        set(out_file "${STD_DIR}/${header}.hpp")
+        make_tilde_line("${header}" tilde_line)
+        string(TOUPPER "${header}" header_upper)
 
-    write_if_changed("${out_file}" "${content}")
-  endforeach()
+        set(is_macro "0")
+        list(FIND MACRO_STD_HEADERS "${header}" idx)
+        if(NOT idx EQUAL -1)
+            set(is_macro "1")
+        endif()
 
-  # generate central all.hpp
-  set(all_hpp_file "${STD_DIR}/all.hpp")
-  set(all_hpp_content "//\n// detail/std/all.hpp\n// ~~~~~~~~~~~~~~~~~~~\n//\n")
-  string(APPEND all_hpp_content "// auto-generated by module_compat.cmake\n\n")
-  string(APPEND all_hpp_content
-         "#ifndef ASIO_DETAIL_STD_ALL_HPP\n#define ASIO_DETAIL_STD_ALL_HPP\n\n")
-  foreach(header ${STD_HEADERS})
-    string(APPEND all_hpp_content
-           "#include \"asio/detail/std/${header}.hpp\"\n")
-  endforeach()
-  string(APPEND all_hpp_content "\n#endif // ASIO_DETAIL_STD_ALL_HPP\n")
+        string(REPLACE "@HEADER@" "${header}" content "${WRAPPER_TEMPLATE}")
+        string(REPLACE "@HEADER_UPPER@" "${header_upper}" content "${content}")
+        string(REPLACE "@TILDE_LINE@" "${tilde_line}" content "${content}")
+        string(REPLACE "@IS_MACRO_HEADER@" "${is_macro}" content "${content}")
 
-  write_if_changed("${all_hpp_file}" "${all_hpp_content}")
+        write_if_changed("${out_file}" "${content}")
+    endforeach()
+
+    # generate central all.hpp
+    set(all_hpp_file "${STD_DIR}/all.hpp")
+    set(all_hpp_content
+        "//\n// detail/std/all.hpp\n// ~~~~~~~~~~~~~~~~~~~\n//\n"
+    )
+    string(
+        APPEND all_hpp_content
+        "// auto-generated by module_compat.cmake\n\n"
+    )
+    string(
+        APPEND all_hpp_content
+        "#ifndef ASIO_DETAIL_STD_ALL_HPP\n#define ASIO_DETAIL_STD_ALL_HPP\n\n"
+    )
+    foreach(header ${STD_HEADERS})
+        string(
+            APPEND all_hpp_content
+            "#include \"asio/detail/std/${header}.hpp\"\n"
+        )
+    endforeach()
+    string(APPEND all_hpp_content "\n#endif // ASIO_DETAIL_STD_ALL_HPP\n")
+
+    write_if_changed("${all_hpp_file}" "${all_hpp_content}")
 endfunction()
 
 # mode: update-includes - replace <header> with "asio/detail/std/header.hpp"
 function(do_update_includes)
-  message(STATUS "=== updating consumer includes ===")
-  collect_source_files(source_files)
-  set(modified_count 0)
+    message(STATUS "=== updating consumer includes ===")
+    collect_source_files(source_files)
+    set(modified_count 0)
 
-  foreach(src ${source_files})
-    file(READ "${src}" content)
-    set(original "${content}")
+    foreach(src ${source_files})
+        file(READ "${src}" content)
+        set(original "${content}")
 
-    foreach(header ${STD_HEADERS})
-      string(FIND "${content}" "<${header}>" pos)
-      if(NOT pos EQUAL -1)
-        string(
-          REGEX
-          REPLACE "(#[ \t]*include[ \t]+)<${header}>"
-                  "\\1\"asio/detail/std/${header}.hpp\"" content "${content}")
-      endif()
+        foreach(header ${STD_HEADERS})
+            string(FIND "${content}" "<${header}>" pos)
+            if(NOT pos EQUAL -1)
+                string(
+                    REGEX REPLACE "(#[ \t]*include[ \t]+)<${header}>"
+                    "\\1\"asio/detail/std/${header}.hpp\""
+                    content
+                    "${content}"
+                )
+            endif()
+        endforeach()
+
+        if(NOT "${content}" STREQUAL "${original}")
+            file(RELATIVE_PATH rel "${ASIO_ROOT}" "${src}")
+            if(IS_DRY_RUN)
+                message(STATUS "  [dry-run] would update: ${rel}")
+            else()
+                file(WRITE "${src}" "${content}")
+                message(STATUS "  updated: ${rel}")
+            endif()
+            math(EXPR modified_count "${modified_count} + 1")
+        endif()
     endforeach()
-
-    if(NOT "${content}" STREQUAL "${original}")
-      file(RELATIVE_PATH rel "${ASIO_ROOT}" "${src}")
-      if(IS_DRY_RUN)
-        message(STATUS "  [dry-run] would update: ${rel}")
-      else()
-        file(WRITE "${src}" "${content}")
-        message(STATUS "  updated: ${rel}")
-      endif()
-      math(EXPR modified_count "${modified_count} + 1")
-    endif()
-  endforeach()
-  message(STATUS "  processed consumer files. modified: ${modified_count}")
+    message(STATUS "  processed consumer files. modified: ${modified_count}")
 endfunction()
 
 # mode: revert-includes - restore <header>
 function(do_revert_includes)
-  message(STATUS "=== reverting consumer includes ===")
-  collect_source_files(source_files)
-  set(modified_count 0)
+    message(STATUS "=== reverting consumer includes ===")
+    collect_source_files(source_files)
+    set(modified_count 0)
 
-  foreach(src ${source_files})
-    file(READ "${src}" content)
-    set(original "${content}")
+    foreach(src ${source_files})
+        file(READ "${src}" content)
+        set(original "${content}")
 
-    foreach(header ${STD_HEADERS})
-      string(FIND "${content}" "\"asio/detail/std/${header}.hpp\"" pos)
-      if(NOT pos EQUAL -1)
-        string(
-          REGEX
-          REPLACE "(#[ \t]*include[ \t]+)\"asio/detail/std/${header}\\.hpp\""
-                  "\\1<${header}>" content "${content}")
-      endif()
+        foreach(header ${STD_HEADERS})
+            string(FIND "${content}" "\"asio/detail/std/${header}.hpp\"" pos)
+            if(NOT pos EQUAL -1)
+                string(
+                    REGEX REPLACE
+                        "(#[ \t]*include[ \t]+)\"asio/detail/std/${header}\\.hpp\""
+                    "\\1<${header}>"
+                    content
+                    "${content}"
+                )
+            endif()
+        endforeach()
+
+        if(NOT "${content}" STREQUAL "${original}")
+            file(RELATIVE_PATH rel "${ASIO_ROOT}" "${src}")
+            if(IS_DRY_RUN)
+                message(STATUS "  [dry-run] would revert: ${rel}")
+            else()
+                file(WRITE "${src}" "${content}")
+                message(STATUS "  reverted: ${rel}")
+            endif()
+            math(EXPR modified_count "${modified_count} + 1")
+        endif()
     endforeach()
-
-    if(NOT "${content}" STREQUAL "${original}")
-      file(RELATIVE_PATH rel "${ASIO_ROOT}" "${src}")
-      if(IS_DRY_RUN)
-        message(STATUS "  [dry-run] would revert: ${rel}")
-      else()
-        file(WRITE "${src}" "${content}")
-        message(STATUS "  reverted: ${rel}")
-      endif()
-      math(EXPR modified_count "${modified_count} + 1")
-    endif()
-  endforeach()
-  message(STATUS "  reverted ${modified_count} files.")
+    message(STATUS "  reverted ${modified_count} files.")
 endfunction()
 
 # mode: remove-headers - delete detail/std/*.hpp
 function(do_remove_headers)
-  message(STATUS "=== removing wrapper headers ===")
-  if(NOT EXISTS "${STD_DIR}")
-    message(STATUS "  directory ${STD_DIR} does not exist. nothing to do.")
-    return()
-  endif()
+    message(STATUS "=== removing wrapper headers ===")
+    if(NOT EXISTS "${STD_DIR}")
+        message(STATUS "  directory ${STD_DIR} does not exist. nothing to do.")
+        return()
+    endif()
 
-  file(GLOB all_wrappers "${STD_DIR}/*.hpp")
-  list(LENGTH all_wrappers removed_count)
-  if(IS_DRY_RUN)
-    foreach(f ${all_wrappers})
-      message(STATUS "  [dry-run] would remove: ${f}")
-    endforeach()
-    message(STATUS "  [dry-run] would remove directory: ${STD_DIR}")
-  else()
-    file(REMOVE_RECURSE "${STD_DIR}")
-    message(STATUS "  removed directory: ${STD_DIR}")
-  endif()
-  message(STATUS "  ${removed_count} files.")
+    file(GLOB all_wrappers "${STD_DIR}/*.hpp")
+    list(LENGTH all_wrappers removed_count)
+    if(IS_DRY_RUN)
+        foreach(f ${all_wrappers})
+            message(STATUS "  [dry-run] would remove: ${f}")
+        endforeach()
+        message(STATUS "  [dry-run] would remove directory: ${STD_DIR}")
+    else()
+        file(REMOVE_RECURSE "${STD_DIR}")
+        message(STATUS "  removed directory: ${STD_DIR}")
+    endif()
+    message(STATUS "  ${removed_count} files.")
 endfunction()
 
 # ---------------------------------------------------------------------------
@@ -311,28 +379,28 @@ endfunction()
 # ---------------------------------------------------------------------------
 
 if(NOT DEFINED MODE)
-  message(
-    FATAL_ERROR
-      "MODE not defined (check, generate-headers, update-includes, generate, revert, etc.)"
-  )
+    message(
+        FATAL_ERROR
+        "MODE not defined (check, generate-headers, update-includes, generate, revert, etc.)"
+    )
 endif()
 
 if(MODE STREQUAL "check")
-  do_check()
+    do_check()
 elseif(MODE STREQUAL "generate-headers" OR MODE STREQUAL "update-content")
-  do_generate_headers()
+    do_generate_headers()
 elseif(MODE STREQUAL "update-includes")
-  do_update_includes()
+    do_update_includes()
 elseif(MODE STREQUAL "generate" OR MODE STREQUAL "update")
-  do_generate_headers()
-  do_update_includes()
+    do_generate_headers()
+    do_update_includes()
 elseif(MODE STREQUAL "revert")
-  do_revert_includes()
-  do_remove_headers()
+    do_revert_includes()
+    do_remove_headers()
 elseif(MODE STREQUAL "revert-includes")
-  do_revert_includes()
+    do_revert_includes()
 elseif(MODE STREQUAL "remove-headers")
-  do_remove_headers()
+    do_remove_headers()
 else()
-  message(FATAL_ERROR "unknown MODE: ${MODE}")
+    message(FATAL_ERROR "unknown MODE: ${MODE}")
 endif()

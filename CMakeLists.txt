@@ -1,18 +1,14 @@
 cmake_minimum_required(VERSION 3.30...4.3)
 
-# gersemi: off
-
 include(cmake/enable_import_std.cmake)
-
-
 
 project(
     asio
     DESCRIPTION "Modularized Asio for C++20"
     HOMEPAGE_URL "https://github.com/DanielaE/asio/tree/module"
     LANGUAGES CXX
+    VERSION 1.36.0
 )
-
 
 # ---------------------------------------------------------------------------
 # Ensure binaries find the correct libstdc++ at runtime when using a
@@ -21,8 +17,12 @@ project(
 # GLIBCXX symbols.
 # ---------------------------------------------------------------------------
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(_suffix .so)
+    if(APPLE)
+        set(_suffix .dylib)
+    endif()
     execute_process(
-        COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libstdc++.so
+        COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libstdc++${_suffix}
         OUTPUT_VARIABLE _gcc_stdcxx_path
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
@@ -33,8 +33,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         message(STATUS "GCC libstdc++ rpath: ${_gcc_lib_dir}")
     endif()
 endif()
-
-
 
 message(
     STATUS
@@ -59,7 +57,13 @@ target_sources(
     INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${_asio_implementation}
 )
 target_compile_features(asio_header INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
-target_compile_definitions(asio_header INTERFACE ASIO_DISABLE_BOOST_CONTEXT_FIBER ASIO_STANDALONE ASIO_NO_DEPRECATED)
+target_compile_definitions(
+    asio_header
+    INTERFACE
+        ASIO_DISABLE_BOOST_CONTEXT_FIBER
+        ASIO_STANDALONE
+        ASIO_NO_DEPRECATED
+)
 
 #==============================
 # asio module library
@@ -82,7 +86,9 @@ target_sources(
     asio
     PUBLIC
         FILE_SET modules TYPE CXX_MODULES BASE_DIRS module FILES module/asio.ixx
-        FILE_SET HEADERS BASE_DIRS include FILES ${_public_headers}
+        FILE_SET HEADERS
+            BASE_DIRS include module
+            FILES ${_public_headers} module/asio-gmf.h
 )
 target_compile_features(asio PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
 set_target_properties(
@@ -111,42 +117,58 @@ if(ASIO_ENABLE_SSL)
         STATUS
         "ASIO: SSL support enabled with OpenSSL at ${OPENSSL_INCLUDE_DIR}"
     )
+    set(_dependencies DEPENDENCIES OpenSSL)
 else()
     message(
         STATUS
         "ASIO: SSL support disabled (use -DASIO_ENABLE_SSL=ON to enable)"
     )
+    set(_dependencies)
 endif()
-
-
 
 if(MINGW)
     target_link_libraries(asio PUBLIC bcrypt mswsock ws2_32)
 endif()
 
+enable_testing()
+
 option(ASIO_BUILD_EXAMPLES "Build Asio examples" ${PROJECT_IS_TOP_LEVEL})
 if(ASIO_BUILD_EXAMPLES)
-    enable_testing()
     add_subdirectory(src/examples)
+endif()
+
+option(ASIO_BUILD_TESTS "Build Asio tests" ${PROJECT_IS_TOP_LEVEL})
+if(ASIO_BUILD_TESTS)
+    # test if the targets are usable from the install directory
+    add_test(
+        NAME install-to-stagedir
+        COMMAND
+            ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --prefix
+            ${CMAKE_BINARY_DIR}/stagedir --config $<CONFIG>
+    )
+    add_test(
+        NAME find-package-test
+        COMMAND
+            ${CMAKE_CTEST_COMMAND} # --verbose
+            --output-on-failure -C $<CONFIG> --build-and-test
+            "${CMAKE_SOURCE_DIR}/src/examples"
+            "${CMAKE_CURRENT_BINARY_DIR}/find-package-test" --build-generator
+            ${CMAKE_GENERATOR} --build-makeprogram ${CMAKE_MAKE_PROGRAM}
+            --build-options #
+            "-D ASIO_IMPORT_STD=${ASIO_IMPORT_STD}"
+            "-D CMAKE_BUILD_TYPE=$<CONFIG>"
+            "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+            "-D CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
+            "-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON}"
+            "-D CMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}/stagedir"
+    )
 endif()
 
 #
 # Install the libraries and its FILE_SET's.
 #
-include(GNUInstallDirs)
+include(cmake/asio-install-library.cmake)
 
-set(package_install_dir ${CMAKE_INSTALL_LIBDIR}/cmake/asio)
-
-install(
-    TARGETS asio asio_header
-    # EXPORT ${targets_export_name}
-    COMPONENT asio_Development
-    FILE_SET HEADERS
-    FILE_SET CXX_MODULES
-    CXX_MODULES_BMI
-        DESTINATION
-            ${package_install_dir}/bmi-${CMAKE_CXX_COMPILER_ID}_$<CONFIG>
-    FILE_SET asio_header
+asio_install_library(asio TARGETS asio asio_header
+    ${_dependencies}
 )
-
-# TODO(CK): install the cmake config packages too

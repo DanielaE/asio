@@ -12,7 +12,7 @@ ifeq (${hostSystemName},Darwin)
   export LLVM_PREFIX:=$(shell brew --prefix llvm)
   export LLVM_DIR:=$(shell realpath ${LLVM_PREFIX})
   export PATH:=${LLVM_DIR}/bin:${PATH}
-  #XXX CMAKE=${HOME}/.local/bin/cmake # cmake v4.4-rc1
+  #XXX CMAKE=${HOME}/.local/bin/cmake # cmake v4.3-rc2
   CMAKE?=/usr/local/bin/cmake
 
   STDLIB=libc++
@@ -22,9 +22,7 @@ ifeq (${hostSystemName},Darwin)
   export CXX:=clang++
   export GCOV:="llvm-cov gcov"
 
-  ### FIXME: to test g++-15:
-  # include/asio/detail/posix_thread.hpp error: conflicting declaration of 'void* asio::detail::asio_detail_posix_thread_function(void*)' in module 'asio'
-  #                                                                  friend void* asio_detail_posix_thread_function(void* arg);
+  ### to test g++-15:
   export GCC_PREFIX:=$(shell brew --prefix gcc)
   export GCC_DIR:=$(shell realpath ${GCC_PREFIX})
 
@@ -43,7 +41,7 @@ else ifeq (${hostSystemName},Linux)
 endif
 
 #############################################################
-.PHONY: all test check install clean
+.PHONY: all test check install clean format
 #############################################################
 
 all: build
@@ -54,7 +52,7 @@ build: GNUmakefile CMakeLists.txt
 	${CXX} -print-file-name=$(STDLIB).modules.json
 	CXX=${CXX} ${CMAKE} -G Ninja -S . -B build -D CMAKE_CXX_STANDARD=26 -D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
-		-D ASIO_IMPORT_STD=ON --fresh -Wdev
+		-D ASIO_IMPORT_STD=ON --fresh --log-level=VERBOSE -Wdev
 	ln -fs build/compile_commands.json .
 
 clean:
@@ -67,6 +65,9 @@ check: build
 
 install test: build
 	ninja -C build $(@)
+
+format:
+	git ls-files ::*.cmake ::*CMakeLists.txt | xargs gersemi -i
 
 #############################################################
 # Anything we don't know how to build will use this rule.
