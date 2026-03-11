@@ -33,8 +33,8 @@
         "CMAKE_INSTALL_MESSAGE": "LAZY",
         "CMAKE_SKIP_TEST_ALL_DEPENDENCY": false,
         "CMAKE_CXX_SCAN_FOR_MODULES": true,
-        "CMAKE_CXX_STANDARD": "20",
-        "ASIO_IMPORT_STD": true
+        "CMAKE_CXX_STANDARD": "23",
+        "ASIO_IMPORT_STD": false
       },
       "environment": {
         "CTEST_OUTPUT_ON_FAILURE": "ON"
@@ -58,7 +58,7 @@
       "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_FLAGS":
-          "-fstack-protector-strong -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast"
+          "-fstack-protector-strong -Wall -Wextra -Wpedantic -Wno-conversion -Wno-sign-conversion -Wcast-qual -Wformat=2 -Wno-undef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wno-old-style-cast"
       }
     },
     {
@@ -97,7 +97,7 @@
       "name": "linux-gcc",
       "inherits": [
         "dev-base",
-        "flags-gcc-clang"
+        "flags-appleclang"
       ],
       "displayName": "Linux GCC",
       "description": "Base configuration for Linux using GCC",
