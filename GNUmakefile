@@ -49,7 +49,7 @@ all: build
 
 build: GNUmakefile CMakeLists.txt
 	${CMAKE} --version
-	${CXX} -print-file-name=$(STDLIB).modules.json
+	-${CXX} -print-file-name=$(STDLIB).modules.json
 	CXX=${CXX} ${CMAKE} -G Ninja -S . -B build -D CMAKE_CXX_STANDARD=26 -D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
 		-D ASIO_IMPORT_STD=ON --fresh --log-level=VERBOSE -Wdev

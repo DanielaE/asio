@@ -51,7 +51,7 @@ file(
 # asio interface library
 #==============================
 add_library(asio_header INTERFACE)
-add_library(asio::asio-header ALIAS asio_header)
+add_library(asio::asio_header ALIAS asio_header)
 target_sources(
     asio_header
     INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${_asio_implementation}
@@ -139,6 +139,7 @@ endif()
 
 option(ASIO_BUILD_TESTS "Build Asio tests" ${PROJECT_IS_TOP_LEVEL})
 if(ASIO_BUILD_TESTS)
+    add_subdirectory(src/tests/unit)
     # test if the targets are usable from the install directory
     add_test(
         NAME install-to-stagedir

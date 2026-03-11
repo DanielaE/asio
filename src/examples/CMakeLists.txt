@@ -4,8 +4,13 @@ include(../../cmake/enable_import_std.cmake)
 
 project(asio_examples DESCRIPTION "Examples for Asio" LANGUAGES CXX)
 
-if(NOT TARGET asio::asio)
+if(PROJECT_IS_TOP_LEVEL)
     find_package(asio REQUIRED)
+else()
+    add_subdirectory(cpp11)
+    add_subdirectory(cpp14)
+    add_subdirectory(cpp17)
+    add_subdirectory(cpp20)
 endif()
 
 add_executable(
