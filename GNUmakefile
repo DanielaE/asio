@@ -78,6 +78,7 @@ install test: build
 
 format:
 	git ls-files ::*.cmake ::*CMakeLists.txt | xargs gersemi -i
+	clang-format -i include/asio/detail/std/*.hpp module/asio-gmf.h CMakePresets.json
 
 #############################################################
 # Anything we don't know how to build will use this rule.

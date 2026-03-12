@@ -8,23 +8,23 @@
 
 #if !defined(ASIO_MODULE)
 // traditional (header-only) path.
-# ifndef ASIO_DISABLE_STD_INCLUDES
-#  ifndef ASIO_STD_ATOMIC_NO_INCLUDE
-#   include <atomic>
+#  ifndef ASIO_DISABLE_STD_INCLUDES
+#    ifndef ASIO_STD_ATOMIC_NO_INCLUDE
+#      include <atomic>
+#    endif
 #  endif
-# endif
 #else
 // module path.
-# if defined(ASIO_HAS_IMPORT_STD) && !defined(ASIO_IN_GMF) && !defined(ASIO_IN_MODULE_PURVIEW)
+#  if defined(ASIO_HAS_IMPORT_STD) && !defined(ASIO_IN_GMF) && !defined(ASIO_IN_MODULE_PURVIEW)
 import std;
-# endif
-# if defined(ASIO_IN_GMF)
-#  ifndef ASIO_DISABLE_STD_INCLUDES
-#   ifndef ASIO_STD_ATOMIC_NO_INCLUDE
-#    if !defined(ASIO_HAS_IMPORT_STD) || 0
-#     include <atomic>
-#    endif
-#   endif
 #  endif
-# endif
+#  if defined(ASIO_IN_GMF)
+#    ifndef ASIO_DISABLE_STD_INCLUDES
+#      ifndef ASIO_STD_ATOMIC_NO_INCLUDE
+#        if !defined(ASIO_HAS_IMPORT_STD) || 0
+#          include <atomic>
+#        endif
+#      endif
+#    endif
+#  endif
 #endif

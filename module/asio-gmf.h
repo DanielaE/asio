@@ -17,8 +17,7 @@
 #  define ASIO_SEPARATE_COMPILATION
 #endif
 
-#if !defined(ASIO_DISABLE_BUFFER_DEBUGGING) &&                                 \
-  !defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+#if !defined(ASIO_DISABLE_BUFFER_DEBUGGING) && !defined(ASIO_ENABLE_BUFFER_DEBUGGING)
 #  define ASIO_DISABLE_BUFFER_DEBUGGING
 #endif
 
