@@ -15,7 +15,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <algorithm>
+#include "asio/detail/std/algorithm.hpp"
 #include "asio/associator.hpp"
 #include "asio/buffer.hpp"
 #include "asio/detail/array_fwd.hpp"

@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_IOCP)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/error.hpp"
 #include "asio/execution_context.hpp"
 #include "asio/socket_base.hpp"

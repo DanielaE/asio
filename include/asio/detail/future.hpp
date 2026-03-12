@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <future>
+#include "asio/detail/std/future.hpp"
 
 // Even though the future header is available, libstdc++ may not implement the
 // std::future class itself. However, we need to have already included the

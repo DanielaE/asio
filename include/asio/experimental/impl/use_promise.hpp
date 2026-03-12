@@ -17,7 +17,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <memory>
+#include "asio/detail/std/memory.hpp"
 #include "asio/async_result.hpp"
 
 #include "asio/detail/push_options.hpp"
@@ -36,7 +36,7 @@ struct promise_handler;
 } // namespace detail
 } // namespace experimental
 
-#if !defined(GENERATING_DOCUMENTATION)
+#if !defined(GENERATING_DOCUMENTATION) && defined(ASIO_HAS_EXPERIMENTAL_PROMISE)
 
 template <typename Allocator, typename R, typename... Args>
 struct async_result<experimental::use_promise_t<Allocator>, R(Args...)>

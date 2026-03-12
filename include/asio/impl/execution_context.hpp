@@ -15,7 +15,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/handler_type_requirements.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/service_registry.hpp"

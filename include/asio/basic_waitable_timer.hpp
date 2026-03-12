@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
-#include <utility>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/utility.hpp"
 #include "asio/any_io_executor.hpp"
 #include "asio/detail/chrono_time_traits.hpp"
 #include "asio/detail/deadline_timer_service.hpp"

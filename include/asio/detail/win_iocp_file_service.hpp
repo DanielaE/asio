@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_IOCP) && defined(ASIO_HAS_FILE)
 
-#include <string>
+#include "asio/detail/std/string.hpp"
 #include "asio/detail/cstdint.hpp"
 #include "asio/detail/win_iocp_handle_service.hpp"
 #include "asio/error.hpp"

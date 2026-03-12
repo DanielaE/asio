@@ -20,7 +20,7 @@
 
 #if defined(ASIO_HAS_IOCP) && defined(ASIO_HAS_SERIAL_PORT)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/win_iocp_serial_port_service.hpp"
 
 #include "asio/detail/push_options.hpp"

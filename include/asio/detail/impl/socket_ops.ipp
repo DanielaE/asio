@@ -17,20 +17,20 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cerrno>
-#include <new>
+#include "asio/detail/std/cctype.hpp"
+#include "asio/detail/std/cstdio.hpp"
+#include "asio/detail/std/cstdlib.hpp"
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/cerrno.hpp"
+#include "asio/detail/std/new.hpp"
 #include "asio/detail/assert.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/error.hpp"
 
 #if defined(ASIO_WINDOWS_RUNTIME)
-# include <codecvt>
-# include <locale>
-# include <string>
+# include "asio/detail/std/codecvt.hpp"
+# include "asio/detail/std/locale.hpp"
+# include "asio/detail/std/string.hpp"
 #endif // defined(ASIO_WINDOWS_RUNTIME)
 
 #if defined(ASIO_WINDOWS) || defined(__CYGWIN__) \

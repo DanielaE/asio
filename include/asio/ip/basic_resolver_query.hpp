@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <string>
+#include "asio/detail/std/string.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/ip/resolver_query_base.hpp"
 

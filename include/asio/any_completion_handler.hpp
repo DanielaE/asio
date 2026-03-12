@@ -12,10 +12,10 @@
 #define ASIO_ANY_COMPLETION_HANDLER_HPP
 
 #include "asio/detail/config.hpp"
-#include <cstring>
-#include <functional>
-#include <memory>
-#include <utility>
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/functional.hpp"
+#include "asio/detail/std/memory.hpp"
+#include "asio/detail/std/utility.hpp"
 #include "asio/any_completion_executor.hpp"
 #include "asio/any_io_executor.hpp"
 #include "asio/associated_allocator.hpp"

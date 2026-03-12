@@ -16,9 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <exception>
-#include <new>
-#include <tuple>
+#include "asio/detail/std/exception.hpp"
+#include "asio/detail/std/new.hpp"
+#include "asio/detail/std/tuple.hpp"
 #include "asio/cancellation_signal.hpp"
 #include "asio/cancellation_state.hpp"
 #include "asio/detail/memory.hpp"

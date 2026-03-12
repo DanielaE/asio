@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <chrono>
-#include <condition_variable>
+#include "asio/detail/std/chrono.hpp"
+#include "asio/detail/std/condition_variable.hpp"
 #include "asio/detail/assert.hpp"
 #include "asio/detail/noncopyable.hpp"
 

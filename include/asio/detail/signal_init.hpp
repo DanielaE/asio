@@ -19,7 +19,7 @@
 
 #if !defined(ASIO_WINDOWS) && !defined(__CYGWIN__)
 
-#include <csignal>
+#include "asio/detail/std/csignal.hpp"
 
 #include "asio/detail/push_options.hpp"
 

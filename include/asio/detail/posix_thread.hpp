@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_PTHREADS)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include <pthread.h>
 #include "asio/detail/memory.hpp"
 
@@ -88,7 +88,7 @@ public:
   ASIO_DECL static std::size_t hardware_concurrency();
 
 private:
-  friend void* asio_detail_posix_thread_function(void* arg);
+  friend void asio_detail_posix_thread_function_wrapper(void* arg);
 
   class func_base
   {
@@ -98,7 +98,6 @@ private:
     virtual void destroy() = 0;
     ::pthread_t thread_;
   };
-
   template <typename Function, typename Allocator>
   class func
     : public func_base

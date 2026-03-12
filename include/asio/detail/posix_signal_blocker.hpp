@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_PTHREADS)
 
-#include <csignal>
+#include "asio/detail/std/csignal.hpp"
 #include <pthread.h>
 #include <signal.h>
 #include "asio/detail/noncopyable.hpp"

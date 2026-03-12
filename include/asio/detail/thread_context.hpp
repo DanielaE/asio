@@ -15,8 +15,8 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <climits>
-#include <cstddef>
+#include "asio/detail/std/climits.hpp"
+#include "asio/detail/std/cstddef.hpp"
 #include "asio/detail/call_stack.hpp"
 
 #include "asio/detail/push_options.hpp"

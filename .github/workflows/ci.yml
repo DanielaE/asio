@@ -310,27 +310,27 @@ jobs:
       CXX: ${{ matrix.compiler }}
       CXXFLAGS: -std=${{ matrix.cxx-std }} ${{ matrix.cxx-stdlib }} ${{ matrix.optim-level }} -Wall -Wextra ${{ matrix.no-deprecated }} ${{ matrix.select-reactor }} ${{ matrix.handler-tracking }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Install autotools
-      if: startsWith(matrix.runs-on, 'macos')
-      run: brew install automake
-    - name: Install compiler
-      if: startsWith(matrix.runs-on, 'ubuntu')
-      run: sudo apt-get install -y ${{ matrix.compiler }}
-    - name: Install boost
-      if: startsWith(matrix.with-boost, '--with-boost=$GITHUB_WORKSPACE')
-      run: |
-        wget --quiet -O - ${{ matrix.boost-url }} | tar -xj
-    - name: Configure
-      run: |
-        ./autogen.sh
-        ./configure ${{ matrix.separate-compilation }} ${{ matrix.with-boost }}
-    - name: Line length check
-      run: perl ./boostify.pl --includes-only
-    - name: Sanity check
-      if: startsWith(matrix.build-type, 'sanity')
-      working-directory: src/tests
-      run: make unit/io_context.log unit/ip/tcp.log unit/ts/net.log
-    - name: Build
-      if: startsWith(matrix.build-type, 'full')
-      run: make && make check
+      - uses: actions/checkout@v4
+      - name: Install autotools
+        if: startsWith(matrix.runs-on, 'macos')
+        run: brew install automake
+      - name: Install compiler
+        if: startsWith(matrix.runs-on, 'ubuntu')
+        run: sudo apt-get install -y ${{ matrix.compiler }}
+      - name: Install boost
+        if: startsWith(matrix.with-boost, '--with-boost=$GITHUB_WORKSPACE')
+        run: |
+          wget --quiet -O - ${{ matrix.boost-url }} | tar -xj
+      - name: Configure
+        run: |
+          ./autogen.sh
+          ./configure ${{ matrix.separate-compilation }} ${{ matrix.with-boost }}
+      - name: Line length check
+        run: perl ./boostify.pl --includes-only
+      - name: Sanity check
+        if: startsWith(matrix.build-type, 'sanity')
+        working-directory: src/tests
+        run: make unit/io_context.log unit/ip/tcp.log unit/ts/net.log
+      - name: Build
+        if: startsWith(matrix.build-type, 'full')
+        run: make && make check

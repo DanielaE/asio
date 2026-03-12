@@ -17,8 +17,8 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cctype>
-#include <cstring>
+#include "asio/detail/std/cctype.hpp"
+#include "asio/detail/std/cstring.hpp"
 #include "asio/ip/address.hpp"
 #include "asio/ssl/host_name_verification.hpp"
 #include "asio/ssl/detail/openssl_types.hpp"

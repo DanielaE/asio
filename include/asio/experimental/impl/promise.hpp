@@ -20,7 +20,7 @@
 #include "asio/detail/utility.hpp"
 #include "asio/error.hpp"
 #include "asio/system_error.hpp"
-#include <tuple>
+#include "asio/detail/std/tuple.hpp"
 
 #include "asio/detail/push_options.hpp"
 

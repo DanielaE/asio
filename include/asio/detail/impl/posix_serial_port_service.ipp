@@ -21,7 +21,7 @@
 #if defined(ASIO_HAS_SERIAL_PORT)
 #if !defined(ASIO_WINDOWS) && !defined(__CYGWIN__)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include "asio/detail/posix_serial_port_service.hpp"
 
 #include "asio/detail/push_options.hpp"

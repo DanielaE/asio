@@ -23,7 +23,7 @@
   || defined(__CYGWIN__) \
   || defined(__SYMBIAN32__)
 
-#include <cstdlib>
+#include "asio/detail/std/cstdlib.hpp"
 #include "asio/detail/socket_holder.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/socket_select_interrupter.hpp"

@@ -16,10 +16,10 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cerrno>
-#include <cstdlib>
-#include <limits>
-#include <stdexcept>
+#include "asio/detail/std/cerrno.hpp"
+#include "asio/detail/std/cstdlib.hpp"
+#include "asio/detail/std/limits.hpp"
+#include "asio/detail/std/stdexcept.hpp"
 
 #include "asio/detail/push_options.hpp"
 

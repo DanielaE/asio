@@ -16,9 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cassert>
-#include <new>
-#include <utility>
+#include "asio/detail/std/cassert.hpp"
+#include "asio/detail/std/new.hpp"
+#include "asio/detail/std/utility.hpp"
 #include "asio/cancellation_type.hpp"
 #include "asio/detail/cstddef.hpp"
 #include "asio/detail/type_traits.hpp"

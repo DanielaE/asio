@@ -19,7 +19,7 @@
 
 #if !defined(ASIO_NO_TS_EXECUTORS)
 
-#include <new>
+#include "asio/detail/std/new.hpp"
 #include "asio/detail/atomic_count.hpp"
 #include "asio/detail/global.hpp"
 #include "asio/detail/memory.hpp"

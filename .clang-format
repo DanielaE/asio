@@ -1,0 +1,86 @@
+---
+# We'll use defaults from the Mozilla style,
+# with 2 columns indentation.
+BasedOnStyle: Mozilla
+IndentPPDirectives: AfterHash
+IndentCaseLabels: false
+UseTab: Never
+---
+Language: Cpp
+AccessModifierOffset: -2
+ContinuationIndentWidth: 2
+IndentWidth: 2
+Standard: Auto
+#
+### see BinPack... too
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowAllConstructorInitializersOnNextLine: true
+#
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseExpressionOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+AllowShortNamespacesOnASingleLine: false
+#
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+#
+BreakAfterOpenBracketFunction: true
+BreakBeforeCloseBracketFunction: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       false
+  AfterFunction:   true
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     true
+  AfterUnion:      true
+  AfterExternBlock: true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+#
+### BinPack... args will not be on the same line
+BinPackArguments: false
+BinPackLongBracedList: false
+BinPackParameters: AlwaysOnePerLine
+#
+# TBD: AlwaysBreakTemplateDeclarations: MultiLine
+BreakBeforeInheritanceComma: true
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
+#
+# TBD: Should we only use 80 columns?
+ColumnLimit: 99
+#
+DerivePointerAlignment: true
+FixNamespaceComments: true
+# SpaceAfterTemplateKeyword: true
+# PenaltyReturnTypeOnItsOwnLine: 60
+#
+SortIncludes: false
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:           '^("asio.*|<asio.*>)'
+    Priority:        2
+  - Regex: '^<(Poco|spdlog|doctest|zmqpp|boost|gtest|gmock|fmt|json|openssl)/'
+    Priority:        3
+  - Regex:           '<[[:alnum:].]+>'
+    Priority:        4
+# all other headers first!
+  - Regex:           '.*'
+    Priority:        1
+IncludeIsMainRegex: '(_test)?$'
+#
+---

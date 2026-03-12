@@ -16,11 +16,11 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
-#include <cstring>
-#include <iterator>
-#include <string>
-#include <vector>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/iterator.hpp"
+#include "asio/detail/std/string.hpp"
+#include "asio/detail/std/vector.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/socket_types.hpp"

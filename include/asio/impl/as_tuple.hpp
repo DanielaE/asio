@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <tuple>
+#include "asio/detail/std/tuple.hpp"
 #include "asio/associated_executor.hpp"
 #include "asio/associator.hpp"
 #include "asio/async_result.hpp"

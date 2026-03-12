@@ -19,8 +19,8 @@
 
 #if defined(ASIO_HAS_DEV_POLL)
 
-#include <cstddef>
-#include <vector>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/vector.hpp"
 #include <sys/devpoll.h>
 #include "asio/detail/hash_map.hpp"
 #include "asio/detail/limits.hpp"

@@ -20,7 +20,7 @@
 #if defined(ASIO_HAS_BOOST_ASSERT)
 # include <boost/assert.hpp>
 #else // defined(ASIO_HAS_BOOST_ASSERT)
-# include <cassert>
+# include "asio/detail/std/cassert.hpp"
 #endif // defined(ASIO_HAS_BOOST_ASSERT)
 
 #if defined(ASIO_HAS_BOOST_ASSERT)

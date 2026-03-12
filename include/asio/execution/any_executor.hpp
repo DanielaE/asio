@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <new>
-#include <typeinfo>
+#include "asio/detail/std/new.hpp"
+#include "asio/detail/std/typeinfo.hpp"
 #include "asio/detail/assert.hpp"
 #include "asio/detail/atomic_count.hpp"
 #include "asio/detail/cstddef.hpp"

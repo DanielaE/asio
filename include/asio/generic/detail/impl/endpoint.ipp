@@ -17,8 +17,8 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cstring>
-#include <typeinfo>
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/typeinfo.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/detail/throw_exception.hpp"

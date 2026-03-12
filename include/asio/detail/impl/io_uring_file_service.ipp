@@ -20,7 +20,7 @@
 #if defined(ASIO_HAS_FILE) \
   && defined(ASIO_HAS_IO_URING)
 
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #include <sys/stat.h>
 #include "asio/detail/io_uring_file_service.hpp"
 

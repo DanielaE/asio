@@ -17,7 +17,7 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include <signal.h>
 #include "asio/associated_cancellation_slot.hpp"
 #include "asio/cancellation_type.hpp"

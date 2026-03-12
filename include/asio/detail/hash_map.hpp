@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <list>
-#include <utility>
+#include "asio/detail/std/list.hpp"
+#include "asio/detail/std/utility.hpp"
 #include "asio/detail/assert.hpp"
 #include "asio/detail/noncopyable.hpp"
 

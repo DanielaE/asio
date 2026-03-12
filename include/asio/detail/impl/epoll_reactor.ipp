@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_EPOLL)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include <sys/epoll.h>
 #include "asio/config.hpp"
 #include "asio/detail/epoll_reactor.hpp"

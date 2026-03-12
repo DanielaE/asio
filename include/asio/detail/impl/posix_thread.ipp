@@ -19,6 +19,7 @@
 
 #if defined(ASIO_HAS_PTHREADS)
 
+#include "asio/detail/std/exception.hpp" // use std::terminate();
 #include "asio/detail/posix_thread.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/error.hpp"
@@ -68,9 +69,14 @@ posix_thread::func_base* posix_thread::start_thread(func_base* arg)
   return arg;
 }
 
-extern "C" void* asio_detail_posix_thread_function(void* arg)
+void asio_detail_posix_thread_function_wrapper(void* arg)
 {
   static_cast<posix_thread::func_base*>(arg)->run();
+}
+
+extern "C" void* asio_detail_posix_thread_function(void* arg)
+{
+  asio_detail_posix_thread_function_wrapper(arg);
   return 0;
 }
 

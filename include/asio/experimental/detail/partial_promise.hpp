@@ -18,7 +18,7 @@
 #include "asio/experimental/coro_traits.hpp"
 
 #if defined(ASIO_HAS_STD_COROUTINE)
-# include <coroutine>
+# include "asio/detail/std/coroutine.hpp"
 #else // defined(ASIO_HAS_STD_COROUTINE)
 # include <experimental/coroutine>
 #endif // defined(ASIO_HAS_STD_COROUTINE)

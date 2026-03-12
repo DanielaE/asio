@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <utility>
+#include "asio/detail/std/utility.hpp"
 #include "asio/compose.hpp"
 #include "asio/deferred.hpp"
 #include "asio/detail/type_traits.hpp"

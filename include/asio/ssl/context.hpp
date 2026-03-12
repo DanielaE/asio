@@ -17,7 +17,7 @@
 
 #include "asio/detail/config.hpp"
 
-#include <string>
+#include "asio/detail/std/string.hpp"
 #include "asio/buffer.hpp"
 #include "asio/io_context.hpp"
 #include "asio/ssl/context_base.hpp"

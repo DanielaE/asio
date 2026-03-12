@@ -19,8 +19,8 @@
 
 #if !defined(ASIO_NO_IOSTREAM)
 
-#include <streambuf>
-#include <vector>
+#include "asio/detail/std/streambuf.hpp"
+#include "asio/detail/std/vector.hpp"
 #include "asio/basic_socket.hpp"
 #include "asio/basic_stream_socket.hpp"
 #include "asio/detail/buffer_sequence_adapter.hpp"

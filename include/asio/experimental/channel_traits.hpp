@@ -16,7 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <deque>
+#include "asio/detail/std/exception.hpp" // use std::exception_ptr
+#include "asio/detail/std/deque.hpp"
 #include "asio/detail/type_traits.hpp"
 #include "asio/error.hpp"
 #include "asio/experimental/channel_error.hpp"

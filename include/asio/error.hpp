@@ -23,7 +23,7 @@
   || defined(ASIO_WINDOWS_RUNTIME)
 # include <winerror.h>
 #else
-# include <cerrno>
+# include "asio/detail/std/cerrno.hpp"
 # include <netdb.h>
 #endif
 

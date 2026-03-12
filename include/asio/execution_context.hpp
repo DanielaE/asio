@@ -16,9 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
-#include <stdexcept>
-#include <typeinfo>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/stdexcept.hpp"
+#include "asio/detail/std/typeinfo.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/noncopyable.hpp"
 

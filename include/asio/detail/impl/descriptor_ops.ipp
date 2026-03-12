@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cerrno>
+#include "asio/detail/std/cerrno.hpp"
 #include "asio/detail/descriptor_ops.hpp"
 #include "asio/error.hpp"
 

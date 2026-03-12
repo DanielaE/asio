@@ -21,7 +21,7 @@
   && !defined(ASIO_WINDOWS_APP) \
   && !defined(UNDER_CE)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/socket_types.hpp"
 

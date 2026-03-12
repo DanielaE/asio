@@ -19,9 +19,9 @@
 
 #if defined(ASIO_HAS_CO_AWAIT) || defined(GENERATING_DOCUMENTATION)
 
-#include <new>
-#include <tuple>
-#include <variant>
+#include "asio/detail/std/new.hpp"
+#include "asio/detail/std/tuple.hpp"
+#include "asio/detail/std/variant.hpp"
 #include "asio/associated_cancellation_slot.hpp"
 #include "asio/associator.hpp"
 #include "asio/async_result.hpp"
@@ -33,7 +33,7 @@
 #include "asio/error.hpp"
 
 #if defined(ASIO_HAS_STD_COROUTINE)
-# include <coroutine>
+# include "asio/detail/std/coroutine.hpp"
 #else // defined(ASIO_HAS_STD_COROUTINE)
 # include <experimental/coroutine>
 #endif // defined(ASIO_HAS_STD_COROUTINE)

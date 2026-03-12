@@ -19,8 +19,8 @@
 
 #if !defined(ASIO_NO_TS_EXECUTORS)
 
-#include <new>
-#include <typeinfo>
+#include "asio/detail/std/new.hpp"
+#include "asio/detail/std/typeinfo.hpp"
 #include "asio/detail/cstddef.hpp"
 #include "asio/detail/executor_function.hpp"
 #include "asio/detail/memory.hpp"

@@ -20,7 +20,7 @@
 #if !defined(ASIO_HAS_THREADS)
 // Nothing to include.
 #else // !defined(ASIO_HAS_THREADS)
-# include <atomic>
+# include "asio/detail/std/atomic.hpp"
 #endif // !defined(ASIO_HAS_THREADS)
 
 namespace asio {

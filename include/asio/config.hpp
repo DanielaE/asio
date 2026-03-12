@@ -19,8 +19,8 @@
 #include "asio/detail/throw_exception.hpp"
 #include "asio/detail/type_traits.hpp"
 #include "asio/execution_context.hpp"
-#include <cstddef>
-#include <string>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/string.hpp"
 
 #include "asio/detail/push_options.hpp"
 

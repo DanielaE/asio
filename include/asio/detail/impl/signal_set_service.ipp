@@ -17,8 +17,8 @@
 
 #include "asio/detail/config.hpp"
 
-#include <cstring>
-#include <stdexcept>
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/stdexcept.hpp"
 #include "asio/detail/signal_blocker.hpp"
 #include "asio/detail/signal_set_service.hpp"
 #include "asio/detail/static_mutex.hpp"

@@ -16,11 +16,11 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <atomic>
-#include <deque>
-#include <memory>
-#include <new>
-#include <tuple>
+#include "asio/detail/std/atomic.hpp"
+#include "asio/detail/std/deque.hpp"
+#include "asio/detail/std/memory.hpp"
+#include "asio/detail/std/new.hpp"
+#include "asio/detail/std/tuple.hpp"
 #include "asio/associated_cancellation_slot.hpp"
 #include "asio/detail/recycling_allocator.hpp"
 #include "asio/detail/type_traits.hpp"

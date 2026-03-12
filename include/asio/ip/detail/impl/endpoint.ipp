@@ -16,9 +16,9 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstring>
+#include "asio/detail/std/cstring.hpp"
 #if !defined(ASIO_NO_IOSTREAM)
-# include <sstream>
+# include "asio/detail/std/sstream.hpp"
 #endif // !defined(ASIO_NO_IOSTREAM)
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/throw_error.hpp"

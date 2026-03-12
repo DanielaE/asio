@@ -21,9 +21,9 @@
 #include "asio/detail/completion_message.hpp"
 
 #if defined(ASIO_HAS_STD_VARIANT)
-# include <variant>
+# include "asio/detail/std/variant.hpp"
 #else // defined(ASIO_HAS_STD_VARIANT)
-# include <new>
+# include "asio/detail/std/new.hpp"
 #endif // defined(ASIO_HAS_STD_VARIANT)
 
 #include "asio/detail/push_options.hpp"

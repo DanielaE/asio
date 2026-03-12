@@ -12,8 +12,9 @@
 #define UNIT_TEST_HPP
 
 #include "asio/detail/config.hpp"
-#include <iostream>
 #include "asio/detail/atomic_count.hpp"
+
+#include <iostream>
 
 #if defined(__sun)
 # include <stdlib.h> // Needed for lrand48.

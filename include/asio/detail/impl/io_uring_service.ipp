@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_IO_URING)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include <sys/eventfd.h>
 #include "asio/detail/io_uring_service.hpp"
 #include "asio/detail/reactor_op.hpp"

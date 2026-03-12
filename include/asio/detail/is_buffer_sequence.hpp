@@ -19,7 +19,7 @@
 #include "asio/detail/type_traits.hpp"
 
 #include "asio/detail/push_options.hpp"
-#include <concepts>
+#include "asio/detail/std/concepts.hpp"
 
 namespace asio {
 

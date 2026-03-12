@@ -16,7 +16,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstdint>
+#include "asio/detail/std/cstdint.hpp"
 
 namespace asio {
 

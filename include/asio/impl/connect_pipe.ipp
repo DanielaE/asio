@@ -24,7 +24,7 @@
 #include "asio/connect_pipe.hpp"
 
 #if defined(ASIO_HAS_IOCP)
-# include <cstdio>
+# include "asio/detail/std/cstdio.hpp"
 # if _WIN32_WINNT >= 0x601
 #  include <bcrypt.h>
 #  if !defined(ASIO_NO_DEFAULT_LINKED_LIBS)

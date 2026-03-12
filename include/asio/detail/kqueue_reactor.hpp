@@ -20,7 +20,7 @@
 
 #if defined(ASIO_HAS_KQUEUE)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include <sys/types.h>
 #include <sys/event.h>
 #include <sys/time.h>

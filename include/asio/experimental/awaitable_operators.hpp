@@ -16,10 +16,10 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <optional>
-#include <stdexcept>
-#include <tuple>
-#include <variant>
+#include "asio/detail/std/optional.hpp"
+#include "asio/detail/std/stdexcept.hpp"
+#include "asio/detail/std/tuple.hpp"
+#include "asio/detail/std/variant.hpp"
 #include "asio/awaitable.hpp"
 #include "asio/co_spawn.hpp"
 #include "asio/deferred.hpp"

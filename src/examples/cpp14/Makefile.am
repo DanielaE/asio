@@ -43,12 +43,12 @@ noinst_PROGRAMS = \
 	operations/composed_6 \
 	operations/composed_7 \
 	operations/composed_8 \
-  parallel_group/parallel_sort \
-  parallel_group/ranged_wait_for_all \
-  parallel_group/wait_for_all \
-  parallel_group/wait_for_one \
-  parallel_group/wait_for_one_error \
-  parallel_group/wait_for_one_success
+	parallel_group/parallel_sort \
+	parallel_group/ranged_wait_for_all \
+	parallel_group/wait_for_all \
+	parallel_group/wait_for_one \
+	parallel_group/wait_for_one_error \
+	parallel_group/wait_for_one_success
 
 AM_CXXFLAGS = -I$(srcdir)/../../../include
 

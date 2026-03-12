@@ -23,8 +23,8 @@
 
 #elif defined(ASIO_ENABLE_HANDLER_TRACKING)
 
-#include <cstdarg>
-#include <cstdio>
+#include "asio/detail/std/cstdarg.hpp"
+#include "asio/detail/std/cstdio.hpp"
 #include "asio/detail/chrono.hpp"
 #include "asio/detail/chrono_time_traits.hpp"
 #include "asio/detail/handler_tracking.hpp"

@@ -20,12 +20,12 @@
 #if defined(ASIO_HAS_CO_AWAIT) || defined(GENERATING_DOCUMENTATION)
 
 #if defined(ASIO_HAS_STD_COROUTINE)
-# include <coroutine>
+# include "asio/detail/std/coroutine.hpp"
 #else // defined(ASIO_HAS_STD_COROUTINE)
 # include <experimental/coroutine>
 #endif // defined(ASIO_HAS_STD_COROUTINE)
 
-#include <utility>
+#include "asio/detail/std/utility.hpp"
 #include "asio/any_io_executor.hpp"
 
 #include "asio/detail/push_options.hpp"

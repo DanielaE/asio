@@ -17,12 +17,12 @@
 
 #include "asio/config.hpp"
 #include "asio/detail/concurrency_hint.hpp"
-#include <cctype>
-#include <cstdio>
-#include <cstring>
-#include <cstdlib>
-#include <vector>
-#include <utility>
+#include "asio/detail/std/cctype.hpp"
+#include "asio/detail/std/cstdio.hpp"
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/cstdlib.hpp"
+#include "asio/detail/std/vector.hpp"
+#include "asio/detail/std/utility.hpp"
 
 #include "asio/detail/push_options.hpp"
 

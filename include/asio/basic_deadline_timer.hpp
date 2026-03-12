@@ -22,7 +22,7 @@
 #if defined(ASIO_HAS_BOOST_DATE_TIME) \
   || defined(GENERATING_DOCUMENTATION)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include "asio/any_io_executor.hpp"
 #include "asio/detail/deadline_timer_service.hpp"
 #include "asio/detail/handler_type_requirements.hpp"

@@ -19,7 +19,7 @@
 
 #if defined(ASIO_HAS_PTHREADS)
 
-#include <cstddef>
+#include "asio/detail/std/cstddef.hpp"
 #include <pthread.h>
 #include "asio/detail/assert.hpp"
 #include "asio/detail/noncopyable.hpp"

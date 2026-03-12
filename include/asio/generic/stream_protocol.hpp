@@ -17,7 +17,7 @@
 
 #include "asio/detail/config.hpp"
 
-#include <typeinfo>
+#include "asio/detail/std/typeinfo.hpp"
 #include "asio/basic_socket_iostream.hpp"
 #include "asio/basic_stream_socket.hpp"
 #include "asio/detail/socket_types.hpp"

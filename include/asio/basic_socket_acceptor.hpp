@@ -15,7 +15,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <utility>
+#include "asio/detail/std/utility.hpp"
 #include "asio/detail/config.hpp"
 #include "asio/any_io_executor.hpp"
 #include "asio/basic_socket.hpp"

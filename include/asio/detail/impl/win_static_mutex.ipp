@@ -19,7 +19,7 @@
 
 #if defined(ASIO_WINDOWS)
 
-#include <cstdio>
+#include "asio/detail/std/cstdio.hpp"
 #include "asio/detail/throw_error.hpp"
 #include "asio/detail/win_static_mutex.hpp"
 #include "asio/error.hpp"

@@ -16,12 +16,12 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
-#include <cstring>
-#include <limits>
-#include <stdexcept>
-#include <string>
-#include <vector>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/cstring.hpp"
+#include "asio/detail/std/limits.hpp"
+#include "asio/detail/std/stdexcept.hpp"
+#include "asio/detail/std/string.hpp"
+#include "asio/detail/std/vector.hpp"
 #include "asio/detail/array_fwd.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/string_view.hpp"

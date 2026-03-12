@@ -16,8 +16,8 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "asio/detail/config.hpp"
-#include <cstddef>
-#include <string>
+#include "asio/detail/std/cstddef.hpp"
+#include "asio/detail/std/string.hpp"
 #include "asio/async_result.hpp"
 #include "asio/buffer.hpp"
 #include "asio/detail/regex_fwd.hpp"

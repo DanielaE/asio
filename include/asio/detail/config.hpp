@@ -27,12 +27,12 @@
 // Make standard library feature macros available.
 #if defined(__has_include)
 # if __has_include(<version>)
-#  include <version>
+#  include "asio/detail/std/version.hpp"
 # else // __has_include(<version>)
-#  include <cstddef>
+#  include "asio/detail/std/cstddef.hpp"
 # endif // __has_include(<version>)
 #else // defined(__has_include)
-# include <cstddef>
+# include "asio/detail/std/cstddef.hpp"
 #endif // defined(__has_include)
 
 // boostify: non-boost code ends here

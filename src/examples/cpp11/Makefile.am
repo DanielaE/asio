@@ -54,11 +54,11 @@ noinst_PROGRAMS = \
 	operations/composed_6 \
 	operations/composed_7 \
 	operations/composed_8 \
-  parallel_group/ranged_wait_for_all \
-  parallel_group/wait_for_all \
-  parallel_group/wait_for_one \
-  parallel_group/wait_for_one_error \
-  parallel_group/wait_for_one_success \
+	parallel_group/ranged_wait_for_all \
+	parallel_group/wait_for_all \
+	parallel_group/wait_for_one \
+	parallel_group/wait_for_one_error \
+	parallel_group/wait_for_one_success \
 	porthopper/client \
 	porthopper/server \
 	services/daytime_client \
@@ -109,8 +109,8 @@ endif
 
 if HAVE_BOOST_COROUTINE
 noinst_PROGRAMS += \
-  spawn/echo_server \
-  spawn/parallel_grep
+	spawn/echo_server \
+	spawn/parallel_grep
 endif
 
 noinst_HEADERS = \
