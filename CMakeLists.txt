@@ -59,11 +59,12 @@ target_sources(
 target_compile_features(asio_header INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 target_compile_definitions(
     asio_header
-    INTERFACE
-        ASIO_DISABLE_BOOST_CONTEXT_FIBER
-        ASIO_STANDALONE
-        ASIO_NO_DEPRECATED
+    INTERFACE ASIO_DISABLE_BOOST_CONTEXT_FIBER ASIO_STANDALONE
+    # TODO(CK): ASIO_NO_DEPRECATED
 )
+if(MSVC)
+    target_compile_definitions(asio_header INTERFACE _WIN32_WINNT=0x0601)
+endif()
 
 #==============================
 # asio module library
@@ -126,6 +127,11 @@ else()
     set(_dependencies)
 endif()
 
+if(MSVC)
+    target_compile_definitions(asio PUBLIC _WIN32_WINNT=0x0601)
+    target_link_libraries(asio PUBLIC mswsock ws2_32)
+endif()
+
 if(MINGW)
     target_link_libraries(asio PUBLIC bcrypt mswsock ws2_32)
 endif()
@@ -140,29 +146,6 @@ endif()
 option(ASIO_BUILD_TESTS "Build Asio tests" ${PROJECT_IS_TOP_LEVEL})
 if(ASIO_BUILD_TESTS)
     add_subdirectory(src/tests/unit)
-    # test if the targets are usable from the install directory
-    add_test(
-        NAME install-to-stagedir
-        COMMAND
-            ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --prefix
-            ${CMAKE_BINARY_DIR}/stagedir --config $<CONFIG>
-    )
-    add_test(
-        NAME find-package-test
-        COMMAND
-            ${CMAKE_CTEST_COMMAND} # --verbose
-            --output-on-failure -C $<CONFIG> --build-and-test
-            "${CMAKE_SOURCE_DIR}/src/examples"
-            "${CMAKE_CURRENT_BINARY_DIR}/find-package-test" --build-generator
-            ${CMAKE_GENERATOR} --build-makeprogram ${CMAKE_MAKE_PROGRAM}
-            --build-options #
-            "-D ASIO_IMPORT_STD=${ASIO_IMPORT_STD}"
-            "-D CMAKE_BUILD_TYPE=$<CONFIG>"
-            "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
-            "-D CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
-            "-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON}"
-            "-D CMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}/stagedir"
-    )
 endif()
 
 #

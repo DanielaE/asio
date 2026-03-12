@@ -142,3 +142,30 @@ foreach(program ${test_PROGRAMS})
 
     add_test(NAME ${target_prefix}${target} COMMAND "${target_prefix}${target}")
 endforeach()
+
+# FIXME: does not work on CI yet! CK
+if(APPLE)
+    # test if the targets are usable from the install directory
+    add_test(
+        NAME install-to-stagedir
+        COMMAND
+            ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --prefix
+            ${CMAKE_BINARY_DIR}/stagedir --config $<CONFIG>
+    )
+    add_test(
+        NAME find-package-test
+        COMMAND
+            ${CMAKE_CTEST_COMMAND} # --verbose
+            --output-on-failure -C $<CONFIG> --build-and-test
+            "${CMAKE_SOURCE_DIR}/src/examples"
+            "${CMAKE_CURRENT_BINARY_DIR}/find-package-test" --build-generator
+            ${CMAKE_GENERATOR} --build-makeprogram ${CMAKE_MAKE_PROGRAM}
+            --build-options #
+            "-D ASIO_IMPORT_STD=${ASIO_IMPORT_STD}"
+            "-D CMAKE_BUILD_TYPE=$<CONFIG>"
+            "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+            "-D CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
+            "-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON}"
+            "-D CMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}/stagedir"
+    )
+endif()

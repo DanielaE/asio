@@ -41,7 +41,7 @@ else ifeq (${hostSystemName},Linux)
 endif
 
 #############################################################
-.PHONY: all test check install clean format
+.PHONY: all test check install clean format workflow
 #############################################################
 
 all: build
@@ -49,7 +49,11 @@ all: build
 
 build: GNUmakefile CMakeLists.txt
 	${CMAKE} --version
-	-${CXX} -print-file-name=$(STDLIB).modules.json
+	-if [ "${hostSystemName}" = "Darwin" ]; then \
+		${CXX} -print-file-name=c++/$(STDLIB).modules.json; \
+	else \
+		${CXX} -print-file-name=$(STDLIB).modules.json; \
+	fi
 	CXX=${CXX} ${CMAKE} -G Ninja -S . -B build -D CMAKE_CXX_STANDARD=26 -D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
 		-D ASIO_IMPORT_STD=ON --fresh --log-level=VERBOSE -Wdev
@@ -59,6 +63,12 @@ clean:
 	rm -rf build .cache compile_commands.json
 	find . -name .DS_Store -delete
 	find . -name '*~' -delete
+
+workflow:
+	cmake --preset linux-clang -D CMAKE_CXX_STANDARD=26 \
+		-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
+		-D ASIO_IMPORT_STD=ON --fresh --log-level=VERBOSE -Wdev
+	cmake --workflow --preset linux-clang-release
 
 check: build
 	run-clang-tidy src/examples/cpp20
