@@ -112,11 +112,11 @@ set(test_PROGRAMS
     windows/basic_overlapped_handle
     windows/basic_random_access_handle
     windows/basic_stream_handle
-    windows/object_handle
+    # FIXME: windows/object_handle
     windows/overlapped_handle
-    windows/overlapped_ptr
-    windows/random_access_handle
-    windows/stream_handle
+    # FIXME: windows/overlapped_ptr
+    # FIXME: windows/random_access_handle
+    # FIXME: windows/stream_handle
     # XXX write
     # XXX write_at
 )

@@ -24,6 +24,13 @@ set(noinst_PROGRAMS
     # XXX operations/composed_6.cpp
     # XXX operations/composed_7.cpp
     # XXX operations/composed_8.cpp
+    # experimental ...
+    # XXX parallel_group/parallel_sort.cpp
+    # XXX parallel_group/ranged_wait_for_all.cpp
+    # XXX parallel_group/wait_for_all.cpp
+    # XXX parallel_group/wait_for_one.cpp
+    # XXX parallel_group/wait_for_one_error.cpp
+    # XXX parallel_group/wait_for_one_success.cpp
 )
 
 foreach(source ${noinst_PROGRAMS})

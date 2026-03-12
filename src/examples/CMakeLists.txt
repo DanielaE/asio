@@ -8,7 +8,7 @@ if(PROJECT_IS_TOP_LEVEL)
     find_package(asio REQUIRED)
 else()
     if(APPLE)
-        add_subdirectory(cpp11)
+        # partly deprecated! add_subdirectory(cpp11)
         add_subdirectory(cpp14)
         # CoroutineTS is deperecated!
         # NO! add_subdirectory(cpp17)

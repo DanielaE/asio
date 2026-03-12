@@ -60,6 +60,7 @@ target_compile_features(asio_header INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 target_compile_definitions(
     asio_header
     INTERFACE ASIO_DISABLE_BOOST_CONTEXT_FIBER ASIO_STANDALONE
+    # FIXME: some of the examples and tests still use deprecated interfaces! CK
     # TODO(CK): ASIO_NO_DEPRECATED
 )
 if(MSVC)
