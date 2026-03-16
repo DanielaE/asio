@@ -12,13 +12,13 @@ ifeq (${hostSystemName},Darwin)
   export LLVM_PREFIX:=$(shell brew --prefix llvm)
   export LLVM_DIR:=$(shell realpath ${LLVM_PREFIX})
   export PATH:=${LLVM_DIR}/bin:${PATH}
-  #XXX CMAKE=${HOME}/.local/bin/cmake # cmake v4.3-rc2
+  #XXX CMAKE=${HOME}/.local/bin/cmake # cmake v4.3-rc3
   CMAKE?=/usr/local/bin/cmake
 
   STDLIB=libc++
   export CMAKE_CXX_STDLIB_MODULES_JSON:=${LLVM_DIR}/lib/c++/$(STDLIB).modules.json
-  export CXXFLAGS:=-stdlib=$(STDLIB)
-  export LDFLAGS:=-L$(LLVM_DIR)/lib/c++ -lc++abi # XXX -lc++
+  #XXX export CXXFLAGS:=-stdlib=$(STDLIB)
+  #XXX export LDFLAGS:=-L$(LLVM_DIR)/lib/c++ -lc++abi # XXX -lc++
   export CXX:=clang++
   export GCOV:="llvm-cov gcov"
 
@@ -54,7 +54,8 @@ build: GNUmakefile CMakeLists.txt
 	else \
 		${CXX} -print-file-name=$(STDLIB).modules.json; \
 	fi
-	CXX=${CXX} ${CMAKE} -G Ninja -S . -B build -D CMAKE_CXX_STANDARD=26 -D CMAKE_BUILD_TYPE=Release \
+	CXX=${CXX} ${CMAKE} -G Ninja -S . -B build -D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_STANDARD=26 -D CMAKE_CXX_EXTENSIONS=YES -D CMAKE_CXX_STANDARD_REQUIRED=YES \
 		-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
 		-D ASIO_IMPORT_STD=ON --fresh --log-level=VERBOSE -Wdev
 	ln -fs build/compile_commands.json .
@@ -64,7 +65,7 @@ clean:
 	find . -name .DS_Store -delete
 	find . -name '*~' -delete
 
-workflow:
+workflow: CMakePresets.json
 	cmake --preset linux-clang -D CMAKE_CXX_STANDARD=26 \
 		-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
 		-D ASIO_IMPORT_STD=ON --fresh --log-level=VERBOSE -Wdev

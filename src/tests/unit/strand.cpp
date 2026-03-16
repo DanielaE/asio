@@ -65,7 +65,7 @@ void increment_with_lock(strand<io_context::executor_type>* s, int* count)
 
 void sleep_increment(io_context* ioc, int* count)
 {
-  timer t(*ioc, chronons::seconds(2));
+  timer t(*ioc, chronons::milliseconds(200));
   t.wait();
 
   ++(*count);
@@ -95,7 +95,7 @@ void start_sleep_increments(io_context* ioc,
     strand<io_context::executor_type>* s, int* count)
 {
   // Give all threads a chance to start.
-  timer t(*ioc, chronons::seconds(2));
+  timer t(*ioc, chronons::milliseconds(200));
   t.wait();
 
   // Start three increments.
@@ -149,13 +149,13 @@ void strand_test()
   thread thread2(bindns::bind(io_context_run, &ioc));
 
   // Check all events run one after another even though there are two threads.
-  timer timer1(ioc, chronons::seconds(3));
+  timer timer1(ioc, chronons::milliseconds(300));
   timer1.wait();
   ASIO_CHECK(count == 0);
-  timer1.expires_at(timer1.expiry() + chronons::seconds(2));
+  timer1.expires_at(timer1.expiry() + chronons::milliseconds(200));
   timer1.wait();
   ASIO_CHECK(count == 1);
-  timer1.expires_at(timer1.expiry() + chronons::seconds(2));
+  timer1.expires_at(timer1.expiry() + chronons::milliseconds(200));
   timer1.wait();
   ASIO_CHECK(count == 2);
 

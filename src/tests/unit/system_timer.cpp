@@ -44,7 +44,7 @@ void decrement_to_zero(asio::system_timer* t, int* count)
 
     int before_value = *count;
 
-    t->expires_at(t->expiry() + asio::chrono::seconds(1));
+    t->expires_at(t->expiry() + asio::chrono::milliseconds(100));
     t->async_wait(bindns::bind(decrement_to_zero, t, count));
 
     // Completion cannot nest, so count value should remain unchanged.
@@ -78,7 +78,7 @@ asio::system_timer::time_point now()
 
 void system_timer_test()
 {
-  using asio::chrono::seconds;
+  using asio::chrono::milliseconds;
   using asio::chrono::microseconds;
   using bindns::placeholders::_1;
   using bindns::placeholders::_2;
@@ -89,45 +89,45 @@ void system_timer_test()
 
   asio::system_timer::time_point start = now();
 
-  asio::system_timer t1(ioc, seconds(1));
+  asio::system_timer t1(ioc, milliseconds(100));
   t1.wait();
 
   // The timer must block until after its expiry time.
   asio::system_timer::time_point end = now();
-  asio::system_timer::time_point expected_end = start + seconds(1);
+  asio::system_timer::time_point expected_end = start + milliseconds(100);
   ASIO_CHECK(expected_end < end || expected_end == end);
 
   start = now();
 
-  asio::system_timer t2(ioc_ex, seconds(1) + microseconds(500000));
+  asio::system_timer t2(ioc_ex, milliseconds(100) + microseconds(500000));
   t2.wait();
 
   // The timer must block until after its expiry time.
   end = now();
-  expected_end = start + seconds(1) + microseconds(500000);
+  expected_end = start + milliseconds(100) + microseconds(500000);
   ASIO_CHECK(expected_end < end || expected_end == end);
 
-  t2.expires_at(t2.expiry() + seconds(1));
+  t2.expires_at(t2.expiry() + milliseconds(100));
   t2.wait();
 
   // The timer must block until after its expiry time.
   end = now();
-  expected_end += seconds(1);
-  ASIO_CHECK(expected_end < end || expected_end == end);
-
-  start = now();
-
-  t2.expires_after(seconds(1) + microseconds(200000));
-  t2.wait();
-
-  // The timer must block until after its expiry time.
-  end = now();
-  expected_end = start + seconds(1) + microseconds(200000);
+  expected_end += milliseconds(100);
   ASIO_CHECK(expected_end < end || expected_end == end);
 
   start = now();
 
-  asio::system_timer t3(ioc, seconds(5));
+  t2.expires_after(milliseconds(100) + microseconds(200000));
+  t2.wait();
+
+  // The timer must block until after its expiry time.
+  end = now();
+  expected_end = start + milliseconds(100) + microseconds(200000);
+  ASIO_CHECK(expected_end < end || expected_end == end);
+
+  start = now();
+
+  asio::system_timer t3(ioc, milliseconds(500));
   t3.async_wait(bindns::bind(increment, &count));
 
   // No completions can be delivered until run() is called.
@@ -139,13 +139,13 @@ void system_timer_test()
   // this should not be until after the timer's expiry time.
   ASIO_CHECK(count == 1);
   end = now();
-  expected_end = start + seconds(1);
+  expected_end = start + milliseconds(100);
   ASIO_CHECK(expected_end < end || expected_end == end);
 
   count = 3;
   start = now();
 
-  asio::system_timer t4(ioc, seconds(1));
+  asio::system_timer t4(ioc, milliseconds(100));
   t4.async_wait(bindns::bind(decrement_to_zero, &t4, &count));
 
   // No completions can be delivered until run() is called.
@@ -158,15 +158,15 @@ void system_timer_test()
   // this should not be until after the timer's final expiry time.
   ASIO_CHECK(count == 0);
   end = now();
-  expected_end = start + seconds(3);
+  expected_end = start + milliseconds(300);
   ASIO_CHECK(expected_end < end || expected_end == end);
 
   count = 0;
   start = now();
 
-  asio::system_timer t5(ioc, seconds(10));
+  asio::system_timer t5(ioc, milliseconds(1000));
   t5.async_wait(bindns::bind(increment_if_not_cancelled, &count, _1));
-  asio::system_timer t6(ioc, seconds(1));
+  asio::system_timer t6(ioc, milliseconds(100));
   t6.async_wait(bindns::bind(cancel_timer, &t5));
 
   // No completions can be delivered until run() is called.
@@ -177,10 +177,10 @@ void system_timer_test()
 
   // The timer should have been cancelled, so count should not have changed.
   // The total run time should not have been much more than 1 second (and
-  // certainly far less than 10 seconds).
+  // certainly far less than 10 milliseconds).
   ASIO_CHECK(count == 0);
   end = now();
-  expected_end = start + seconds(2);
+  expected_end = start + milliseconds(200);
   ASIO_CHECK(end < expected_end);
 
   // Wait on the timer again without cancelling it. This time the asynchronous
@@ -191,10 +191,10 @@ void system_timer_test()
   ioc.run();
 
   // The timer should not have been cancelled, so count should have changed.
-  // The total time since the timer was created should be more than 10 seconds.
+  // The total time since the timer was created should be more than 1000 milliseconds.
   ASIO_CHECK(count == 1);
   end = now();
-  expected_end = start + seconds(10);
+  expected_end = start + milliseconds(1000);
   ASIO_CHECK(expected_end < end || expected_end == end);
 
   count = 0;
@@ -203,21 +203,21 @@ void system_timer_test()
   // Start two waits on a timer, one of which will be cancelled. The one
   // which is not cancelled should still run to completion and increment the
   // counter.
-  asio::system_timer t7(ioc, seconds(3));
+  asio::system_timer t7(ioc, milliseconds(300));
   t7.async_wait(bindns::bind(increment_if_not_cancelled, &count, _1));
   t7.async_wait(bindns::bind(increment_if_not_cancelled, &count, _1));
-  asio::system_timer t8(ioc, seconds(1));
+  asio::system_timer t8(ioc, milliseconds(100));
   t8.async_wait(bindns::bind(cancel_one_timer, &t7));
 
   ioc.restart();
   ioc.run();
 
   // One of the waits should not have been cancelled, so count should have
-  // changed. The total time since the timer was created should be more than 3
-  // seconds.
+  // changed. The total time since the timer was created should be more than 300
+  // milliseconds.
   ASIO_CHECK(count == 1);
   end = now();
-  expected_end = start + seconds(3);
+  expected_end = start + milliseconds(300);
   ASIO_CHECK(expected_end < end || expected_end == end);
 }
 
@@ -377,13 +377,13 @@ void system_timer_thread_test()
 
   asio::thread th(bindns::bind(io_context_run, &ioc));
 
-  t2.expires_after(asio::chrono::seconds(2));
+  t2.expires_after(asio::chrono::milliseconds(200));
   t2.wait();
 
-  t1.expires_after(asio::chrono::seconds(2));
+  t1.expires_after(asio::chrono::milliseconds(200));
   t1.async_wait(bindns::bind(increment, &count));
 
-  t2.expires_after(asio::chrono::seconds(4));
+  t2.expires_after(asio::chrono::milliseconds(400));
   t2.wait();
 
   ioc.stop();
@@ -395,7 +395,7 @@ void system_timer_thread_test()
 asio::system_timer make_timer(asio::io_context& ioc, int* count)
 {
   asio::system_timer t(ioc);
-  t.expires_after(asio::chrono::seconds(1));
+  t.expires_after(asio::chrono::milliseconds(100));
   t.async_wait(bindns::bind(increment, count));
   return t;
 }
@@ -408,7 +408,7 @@ typedef asio::basic_waitable_timer<
 io_context_system_timer make_convertible_timer(asio::io_context& ioc, int* count)
 {
   io_context_system_timer t(ioc);
-  t.expires_after(asio::chrono::seconds(1));
+  t.expires_after(asio::chrono::milliseconds(100));
   t.async_wait(bindns::bind(increment, count));
   return t;
 }
@@ -456,7 +456,7 @@ void system_timer_op_cancel_test()
   asio::io_context ioc;
   int count = 0;
 
-  asio::system_timer timer(ioc, asio::chrono::seconds(10));
+  asio::system_timer timer(ioc, asio::chrono::milliseconds(1000));
 
   timer.async_wait(bindns::bind(increment, &count));
 

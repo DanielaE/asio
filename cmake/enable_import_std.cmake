@@ -1,3 +1,6 @@
+# ---- The include guard applies globally to the whole build ----
+include_guard(GLOBAL)
+
 if(NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 20)
 endif()
@@ -49,41 +52,98 @@ if(ASIO_IMPORT_STD)
 
     # 2. Clang libc++ Modules Path Setup
     # before project() we must detect clang by inspecting CMAKE_CXX_COMPILER
-    if(
-        NOT CMAKE_CXX_STDLIB_MODULES_JSON
-        AND (
-            CMAKE_CXX_COMPILER MATCHES "clang"
-            OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"
-        )
-    )
-        execute_process(
-            COMMAND ${CMAKE_CXX_COMPILER} -print-resource-dir
-            OUTPUT_VARIABLE _clang_resource_dir
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-        if(_clang_resource_dir)
-            # libc++.modules.json is in the lib directory within LLVM/Clang root
-            cmake_path(SET _modules_json_path "${_clang_resource_dir}")
-            cmake_path(GET _modules_json_path PARENT_PATH _modules_json_path) # .../lib/clang
-            cmake_path(GET _modules_json_path PARENT_PATH _modules_json_path) # .../lib
-            cmake_path(APPEND _modules_json_path "libc++.modules.json")
+    if(NOT CMAKE_CXX_STDLIB_MODULES_JSON)
+        if(LINUX)
+            if(
+                CMAKE_CXX_COMPILER MATCHES "clang"
+                OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"
+            )
+                execute_process(
+                    COMMAND ${CMAKE_CXX_COMPILER} -print-resource-dir
+                    OUTPUT_VARIABLE _clang_resource_dir
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                )
+                if(_clang_resource_dir)
+                    # libc++.modules.json is in the lib directory within LLVM/Clang root
+                    cmake_path(SET _modules_json_path "${_clang_resource_dir}")
+                    cmake_path(
+                        GET _modules_json_path
+                        PARENT_PATH _modules_json_path
+                    ) # .../lib/clang
+                    cmake_path(
+                        GET _modules_json_path
+                        PARENT_PATH _modules_json_path
+                    ) # .../lib
+                    cmake_path(APPEND _modules_json_path "libc++.modules.json")
 
-            if(EXISTS "${_modules_json_path}")
+                    if(EXISTS "${_modules_json_path}")
+                        set(CMAKE_CXX_STDLIB_MODULES_JSON
+                            "${_modules_json_path}"
+                            CACHE PATH
+                            "Path to libc++.modules.json"
+                        )
+                        message(
+                            STATUS
+                            "Found libc++.modules.json: ${CMAKE_CXX_STDLIB_MODULES_JSON}"
+                        )
+                    endif()
+                endif()
+            endif()
+        elseif(APPLE)
+            if(
+                CMAKE_C_COMPILER MATCHES "clang"
+                OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang"
+            )
+                execute_process(
+                    OUTPUT_VARIABLE _modules_json_path
+                    COMMAND
+                        ${CMAKE_CXX_COMPILER}
+                        -print-file-name=c++/libc++.modules.json
+                    COMMAND_ECHO STDOUT
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                )
+                if(EXISTS ${_modules_json_path})
+                    file(REAL_PATH ${_modules_json_path} _modules_json_path)
+                    set(CMAKE_CXX_STDLIB_MODULES_JSON
+                        "${_modules_json_path}"
+                        CACHE PATH
+                        "Path to c++/libc++.modules.json"
+                    )
+                    message(
+                        STATUS
+                        "Found c++/libstdc++.modules.json: ${CMAKE_CXX_STDLIB_MODULES_JSON}"
+                    )
+                endif()
+            endif()
+        endif()
+        if(
+            CMAKE_C_COMPILER MATCHES "gcc"
+            OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU"
+        )
+            execute_process(
+                OUTPUT_VARIABLE _modules_json_path
+                COMMAND
+                    ${CMAKE_CXX_COMPILER}
+                    -print-file-name=libstdc++.modules.json
+                COMMAND_ECHO STDOUT
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            if(EXISTS ${_modules_json_path})
+                file(REAL_PATH ${_modules_json_path} _modules_json_path)
                 set(CMAKE_CXX_STDLIB_MODULES_JSON
                     "${_modules_json_path}"
                     CACHE PATH
-                    "Path to libc++.modules.json"
+                    "Path to libstdc++.modules.json"
                 )
                 message(
                     STATUS
-                    "Found libc++.modules.json: ${CMAKE_CXX_STDLIB_MODULES_JSON}"
+                    "Found libstdc++.modules.json: ${CMAKE_CXX_STDLIB_MODULES_JSON}"
                 )
             endif()
         endif()
-    else()
-        message(
-            VERBOSE
-            "CMAKE_CXX_STDLIB_MODULES_JSON: ${CMAKE_CXX_STDLIB_MODULES_JSON}"
-        )
     endif()
+    message(
+        STATUS
+        "CMAKE_CXX_STDLIB_MODULES_JSON: ${CMAKE_CXX_STDLIB_MODULES_JSON}"
+    )
 endif()

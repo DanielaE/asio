@@ -26,11 +26,12 @@ set(noinst_PROGRAMS
     channels/mutual_exclusion_1.cpp
 )
 
-set(type_erasure_type_erasure_SOURCES
-    type_erasure/main.cpp
-    type_erasure/stdin_line_reader.cpp
-    type_erasure/sleep.cpp
-)
+# add_executable(${target_prefix}_type_erasure
+#     type_erasure/main.cpp
+#     type_erasure/stdin_line_reader.cpp
+#     type_erasure/sleep.cpp
+# )
+# target_link_libraries(${target_prefix}_type_erasure asio::asio_header)
 
 foreach(source ${noinst_PROGRAMS})
     string(REGEX REPLACE "\.cpp$" "" program ${source})

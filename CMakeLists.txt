@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.30...4.3)
 
+#FIXME: include(cmake/prelude.cmake)
 include(cmake/enable_import_std.cmake)
 
 project(

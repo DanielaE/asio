@@ -28,13 +28,15 @@
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_EXTENSIONS": false,
-        "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-        "CMAKE_INSTALL_MESSAGE": "LAZY",
-        "CMAKE_SKIP_TEST_ALL_DEPENDENCY": false,
+        "ASIO_IMPORT_STD": true,
+        "ASIO_BUILD_EXAMPLES": true,
+        "CMAKE_CXX_EXTENSIONS": true,
         "CMAKE_CXX_SCAN_FOR_MODULES": true,
         "CMAKE_CXX_STANDARD": "23",
-        "ASIO_IMPORT_STD": false
+        "CMAKE_CXX_STANDARD_REQUIRED": true,
+        "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+        "CMAKE_INSTALL_MESSAGE": "LAZY",
+        "CMAKE_SKIP_TEST_ALL_DEPENDENCY": false
       },
       "environment": {
         "CTEST_OUTPUT_ON_FAILURE": "ON"
@@ -58,7 +60,7 @@
       "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_FLAGS":
-          "-fstack-protector-strong -Wall -Wextra -Wpedantic -Wno-conversion -Wno-sign-conversion -Wcast-qual -Wformat=2 -Wno-undef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wno-old-style-cast"
+          "-fstack-protector-strong -Wall -Wextra -Wpedantic -Wno-conversion -Wno-sign-conversion -Wcast-qual -Wformat=2 -Wno-undef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wno-null-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wno-old-style-cast"
       }
     },
     {
@@ -84,8 +86,7 @@
         "Base configuration for Windows using MSVC toolchain (requires Developer Command Prompt)",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl",
-        "ASIO_BUILD_EXAMPLES": true
+        "CMAKE_CXX_COMPILER": "cl"
       },
       "condition": {
         "type": "equals",
@@ -103,9 +104,10 @@
       "description": "Base configuration for Linux using GCC",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
-        "ASIO_BUILD_EXAMPLES": true,
-        "ASIO_IMPORT_STD": true
+        "CMAKE_CXX_COMPILER": "g++"
+      },
+      "environment": {
+        "CXX_FLAGS": "-stdlib=libstdc++"
       }
     },
     {
@@ -121,9 +123,10 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_CXX_FLAGS": "-stdlib=libc++",
         "CMAKE_EXE_LINKER_FLAGS": "-lc++abi",
-        "CMAKE_SHARED_LINKER_FLAGS": "-lc++abi",
-        "ASIO_BUILD_EXAMPLES": true,
-        "ASIO_IMPORT_STD": true
+        "CMAKE_SHARED_LINKER_FLAGS": "-lc++abi"
+      },
+      "environment": {
+        "CXX_FLAGS": "-stdlib=libc++"
       }
     },
     {
@@ -137,9 +140,12 @@
         "Base configuration for Windows using MSYS2 MinGW Clang toolchain",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "ASIO_BUILD_EXAMPLES": true,
-        "ASIO_IMPORT_STD": true
+        "CMAKE_CXX_COMPILER": "clang++"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
       }
     }
   ],

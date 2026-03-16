@@ -143,8 +143,11 @@ foreach(program ${test_PROGRAMS})
     add_test(NAME ${target_prefix}${target} COMMAND "${target_prefix}${target}")
 endforeach()
 
-# FIXME: does not work on CI yet! CK
-if(APPLE)
+if(CMAKE_SKIP_INSTALL_RULES)
+    return()
+endif()
+
+if(NOT LINUX)
     # test if the targets are usable from the install directory
     add_test(
         NAME install-to-stagedir
@@ -164,7 +167,9 @@ if(APPLE)
             "-D ASIO_IMPORT_STD=${ASIO_IMPORT_STD}"
             "-D CMAKE_BUILD_TYPE=$<CONFIG>"
             "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+            "-D CMAKE_CXX_EXTENSIONS=${CMAKE_CXX_EXTENSIONS}"
             "-D CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"
+            "-D CMAKE_CXX_STANDARD_REQUIRED=${CMAKE_CXX_STANDARD_REQUIRED}"
             "-D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON}"
             "-D CMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}/stagedir"
     )

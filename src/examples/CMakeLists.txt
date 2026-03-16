@@ -21,6 +21,10 @@ add_executable(
     cpp20/invocation/completion_executor.cpp
 )
 target_link_libraries(example.completion_executor PRIVATE asio::asio)
+target_compile_features(
+    example.completion_executor
+    PRIVATE cxx_std_${CMAKE_CXX_STANDARD}
+)
 if(ASIO_IMPORT_STD)
     set_property(TARGET example.completion_executor PROPERTY CXX_MODULE_STD ON)
 endif()
