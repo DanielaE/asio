@@ -15,6 +15,7 @@ jobs:
         cxx_config:
           - { std: 20, import_std: "OFF" }
           - { std: 23, import_std: "ON" }
+        build_type: [debug, release]
 
     runs-on: ubuntu-latest
 
@@ -47,9 +48,9 @@ jobs:
       - name: Build
         env:
           PATH: $HOME/.local/bin:$PATH
-        run: cmake --build --preset linux-clang-debug
+        run: cmake --build --preset linux-clang-${{ matrix.build_type }}
 
       - name: Test
         env:
           PATH: $HOME/.local/bin:$PATH
-        run: ctest --preset linux-clang-debug
+        run: ctest --preset linux-clang-${{ matrix.build_type }}

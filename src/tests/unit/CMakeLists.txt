@@ -147,10 +147,6 @@ if(CMAKE_SKIP_INSTALL_RULES)
     return()
 endif()
 
-# if(LINUX AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-#     return()
-# endif()
-
 # test if the targets are usable from the install directory
 # NOTE: should be tested in Debug and Release! CK
 add_test(
@@ -165,8 +161,9 @@ add_test(
         ${CMAKE_CTEST_COMMAND} # --verbose
         --output-on-failure -C $<CONFIG> --build-and-test
         "${CMAKE_SOURCE_DIR}/src/examples"
-        "${CMAKE_CURRENT_BINARY_DIR}/find-package-test" --build-generator
-        ${CMAKE_GENERATOR} --build-makeprogram ${CMAKE_MAKE_PROGRAM}
+        "${CMAKE_CURRENT_BINARY_DIR}/find-package-test"
+        --build-generator "Ninja" # XXX ${CMAKE_GENERATOR}
+        --build-makeprogram ${CMAKE_MAKE_PROGRAM} #
         --build-options #
         "-D ASIO_IMPORT_STD=${ASIO_IMPORT_STD}" #
         "-D CMAKE_BUILD_TYPE=$<CONFIG>" #
