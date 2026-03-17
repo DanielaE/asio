@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.30...4.3)
 
-#FIXME: include(cmake/prelude.cmake)
 include(cmake/enable_import_std.cmake)
 
 project(
@@ -102,11 +101,11 @@ target_link_libraries(asio PUBLIC asio_header)
 
 option(ASIO_IMPORT_STD "Enable 'import std;' support for ASIO module" OFF)
 if(ASIO_IMPORT_STD)
+    message(STATUS "Build asio with target PROPERTY CXX_MODULE_STD ON")
     # Tell CMake that we explicitly want `import std`.
     # This initializes the property CXX_MODULE_STD of asio targets to 1 (requires CMake 3.30+)
-    target_compile_definitions(asio PUBLIC ASIO_HAS_IMPORT_STD)
     set_target_properties(asio PROPERTIES CXX_MODULE_STD ON)
-    message(STATUS "Build asio with target PROPERTY CXX_MODULE_STD ON")
+    target_compile_definitions(asio PUBLIC ASIO_HAS_IMPORT_STD)
 endif()
 
 # Optional SSL support (can be controlled via -DASIO_ENABLE_SSL=OFF to disable)

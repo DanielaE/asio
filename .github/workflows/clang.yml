@@ -47,9 +47,9 @@ jobs:
       - name: Build
         env:
           PATH: $HOME/.local/bin:$PATH
-        run: cmake --build --preset linux-clang-release
+        run: cmake --build --preset linux-clang-debug
 
       - name: Test
         env:
           PATH: $HOME/.local/bin:$PATH
-        run: ctest --preset linux-clang-release
+        run: ctest --preset linux-clang-debug

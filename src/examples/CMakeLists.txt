@@ -26,6 +26,7 @@ target_compile_features(
     PRIVATE cxx_std_${CMAKE_CXX_STANDARD}
 )
 if(ASIO_IMPORT_STD)
+    message(STATUS "Build asio with target PROPERTY CXX_MODULE_STD ON")
     set_property(TARGET example.completion_executor PROPERTY CXX_MODULE_STD ON)
 endif()
 add_test(NAME example.completion_executor COMMAND example.completion_executor)

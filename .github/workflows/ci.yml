@@ -2,7 +2,15 @@ name: asio CI
 
 on:
   push:
-    branches: [ master, citest-* ]
+    branches: [ master, citest-*, feature/module* ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

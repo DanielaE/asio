@@ -61,7 +61,7 @@ BreakBeforeInheritanceComma: true
 BreakConstructorInitializers: BeforeColon
 BreakInheritanceList: BeforeColon
 #
-# TBD: Should we only use 80 columns?
+# We should only use 80 columns!
 ColumnLimit: 99
 #
 DerivePointerAlignment: true

@@ -46,9 +46,9 @@ jobs:
       - name: Build
         env:
           PATH: $HOME/.local/bin:$PATH
-        run: cmake --build --preset linux-gcc-release
+        run: cmake --build --preset linux-gcc-debug
 
       - name: Test
         env:
           PATH: $HOME/.local/bin:$PATH
-        run: ctest --preset linux-gcc-release
+        run: ctest --preset linux-gcc-debug

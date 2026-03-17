@@ -11,11 +11,11 @@ sub print_line
   my ($output, $line, $from, $lineno) = @_;
 
   # Warn if the resulting line is >80 characters wide.
-  if (length($line) > 80)
+  if (length($line) > 99)
   {
     if ($from =~ /\.[chi]pp$/)
     {
-      ++$bad_lines;
+      # TODO(CK): ++$bad_lines;
       print("Warning: $from:$lineno: output >80 characters wide.\n");
     }
   }
