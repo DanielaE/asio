@@ -80,9 +80,10 @@ distclean:
 workflow: CMakePresets.json
 	${CMAKE} --preset linux-${PRESET} -D CMAKE_CXX_STANDARD=26 \
 		-D ASIO_IMPORT_STD=ON \
-		-D ASIO_ENABLE_SSL=OFF \
+		-D ASIO_ENABLE_SSL=ON \
 		--fresh --log-level=VERBOSE -Wdev
 		# -D CMAKE_CXX_STDLIB_MODULES_JSON=${CMAKE_CXX_STDLIB_MODULES_JSON} \
+		#
 	${CMAKE} --workflow --preset linux-${PRESET}-release
 #############################################################
 

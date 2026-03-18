@@ -78,9 +78,16 @@ list(FILTER _asio_headers EXCLUDE REGEX [=[.*/spawn.*\.hpp]=])
 set(_public_headers include/asio.hpp ${_asio_headers})
 list(FILTER _public_headers EXCLUDE REGEX [=[.*/detail/.*\.hpp]=])
 list(FILTER _public_headers EXCLUDE REGEX [=[.*/impl/.*\.hpp]=])
-# foreach(header in LISTS ${_public_headers})
-#   message(DEBUG "${header}")
-# endforeach()
+
+# Optional SSL support (can be controlled via -DASIO_ENABLE_SSL=OFF to disable)
+option(ASIO_ENABLE_SSL "Enable SSL support for ASIO module" ON)
+if(NOT ASIO_ENABLE_SSL)
+    list(FILTER _public_headers EXCLUDE REGEX [=[.*/ssl.*\.hpp]=])
+endif()
+
+foreach(header in LISTS ${_public_headers})
+  message(DEBUG "${header}")
+endforeach()
 
 add_library(asio STATIC)
 add_library(asio::asio ALIAS asio)
@@ -108,8 +115,6 @@ if(ASIO_IMPORT_STD)
     target_compile_definitions(asio PUBLIC ASIO_HAS_IMPORT_STD)
 endif()
 
-# Optional SSL support (can be controlled via -DASIO_ENABLE_SSL=OFF to disable)
-option(ASIO_ENABLE_SSL "Enable SSL support for ASIO module" ON)
 if(ASIO_ENABLE_SSL)
     find_package(OpenSSL REQUIRED)
     target_compile_definitions(asio PUBLIC ASIO_USE_SSL)
@@ -122,7 +127,7 @@ if(ASIO_ENABLE_SSL)
     set(_dependencies DEPENDENCIES OpenSSL)
 else()
     message(
-        STATUS
+        WARNING
         "ASIO: SSL support disabled (use -DASIO_ENABLE_SSL=ON to enable)"
     )
     set(_dependencies)
