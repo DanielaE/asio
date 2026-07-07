@@ -94,19 +94,10 @@ function(asio_install_library name)
     set(oneValueArgs NAMESPACE EXPORT_NAME DESTINATION)
     set(multiValueArgs TARGETS DEPENDENCIES)
 
-    cmake_parse_arguments(
-        ASIO
-        "${options}"
-        "${oneValueArgs}"
-        "${multiValueArgs}"
-        ${ARGN}
-    )
+    cmake_parse_arguments(ASIO "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     if(NOT ASIO_TARGETS)
-        message(
-            FATAL_ERROR
-            "asio_install_library(${name}): TARGETS must be specified"
-        )
+        message(FATAL_ERROR "asio_install_library(${name}): TARGETS must be specified")
     endif()
 
     if(CMAKE_SKIP_INSTALL_RULES)
@@ -149,20 +140,14 @@ function(asio_install_library name)
 
     # XXX string(REPLACE "asio_" "" install_component_name "${name}")
     set(install_component_name "asio")
-    message(
-        VERBOSE
-        "asio-install-library(${name}): COMPONENT '${install_component_name}'"
-    )
+    message(VERBOSE "asio-install-library(${name}): COMPONENT '${install_component_name}'")
 
     # --------------------------------------------------
     # Install each target with all of its file sets
     # --------------------------------------------------
     foreach(_tgt IN LISTS ASIO_TARGETS)
         if(NOT TARGET "${_tgt}")
-            message(
-                WARNING
-                "asio_install_library(${name}): '${_tgt}' is not a target"
-            )
+            message(WARNING "asio_install_library(${name}): '${_tgt}' is not a target")
             continue()
         endif()
 
@@ -179,10 +164,7 @@ function(asio_install_library name)
         # # XXX list(GET name_parts -1 component_name)
 
         set(component_name "${_tgt}")
-        set_target_properties(
-            "${_tgt}"
-            PROPERTIES EXPORT_NAME "${component_name}"
-        )
+        set_target_properties("${_tgt}" PROPERTIES EXPORT_NAME "${component_name}")
         message(
             VERBOSE
             "asio_install_library(${name}): EXPORT_NAME ${component_name} for TARGET '${_tgt}'"
@@ -190,11 +172,7 @@ function(asio_install_library name)
 
         # Get the list of interface header sets, exact one expected!
         set(_install_header_set_args)
-        get_target_property(
-            _available_header_sets
-            ${_tgt}
-            INTERFACE_HEADER_SETS
-        )
+        get_target_property(_available_header_sets ${_tgt} INTERFACE_HEADER_SETS)
         if(_available_header_sets)
             message(
                 VERBOSE
@@ -214,50 +192,41 @@ function(asio_install_library name)
             set(_install_header_set_args FILE_SET HEADERS) # NOTE: empty FILE_SET in this case! CK
         endif()
 
-        # Detect presence of C++ module file sets, exact one expected!
-        get_target_property(_module_sets "${_tgt}" CXX_MODULE_SETS)
+        # Detect presence of PUBLIC C++ module file sets, exact one expected!
+        get_target_property(_module_sets "${_tgt}" INTERFACE_CXX_MODULE_SETS)
         if(_module_sets)
             message(
                 VERBOSE
-                "asio-install-library(${name}): '${_tgt}' has CXX_MODULE_SETS=${_module_sets}"
+                "asio-install-library(${name}): '${_tgt}' has INTERFACE_CXX_MODULE_SETS=${_module_sets}"
             )
             install(
                 TARGETS "${_tgt}"
                 EXPORT ${ASIO_EXPORT_NAME}
-                ARCHIVE
-                    ${_lib_install_dir}
-                    COMPONENT "${install_component_name}_Development"
+                ARCHIVE ${_lib_install_dir} COMPONENT "${install_component_name}_Development"
                 LIBRARY
                     ${_lib_install_dir}
                     COMPONENT "${install_component_name}_Runtime"
                     NAMELINK_COMPONENT "${install_component_name}_Development"
-                RUNTIME
-                    ${_bin_install_dir}
-                    COMPONENT "${install_component_name}_Runtime"
+                RUNTIME ${_bin_install_dir} COMPONENT "${install_component_name}_Runtime"
                 ${_install_header_set_args}
                 FILE_SET ${_module_sets}
                     DESTINATION "${ASIO_DESTINATION}"
                     COMPONENT "${install_component_name}_Development"
                 # NOTE: There's currently no convention for this location! CK
                 CXX_MODULES_BMI
-                    DESTINATION
-                        ${_config_install_dir}/bmi-${CMAKE_CXX_COMPILER_ID}_$<CONFIG>
+                    DESTINATION ${_config_install_dir}/bmi-${CMAKE_CXX_COMPILER_ID}_$<CONFIG>
                     COMPONENT "${install_component_name}_Development"
             )
         else()
             install(
                 TARGETS "${_tgt}"
                 EXPORT ${ASIO_EXPORT_NAME}
-                ARCHIVE
-                    ${_lib_install_dir}
-                    COMPONENT "${install_component_name}_Development"
+                ARCHIVE ${_lib_install_dir} COMPONENT "${install_component_name}_Development"
                 LIBRARY
                     ${_lib_install_dir}
                     COMPONENT "${install_component_name}_Runtime"
                     NAMELINK_COMPONENT "${install_component_name}_Development"
-                RUNTIME
-                    ${_bin_install_dir}
-                    COMPONENT "${install_component_name}_Runtime"
+                RUNTIME ${_bin_install_dir} COMPONENT "${install_component_name}_Runtime"
                 ${_install_header_set_args}
             )
         endif()
@@ -291,11 +260,7 @@ function(asio_install_library name)
     set(_pkg_var "${_pkg_prefix}_INSTALL_CONFIG_FILE_PACKAGE")
 
     if(NOT DEFINED ${_pkg_var})
-        set(${_pkg_var}
-            OFF
-            CACHE BOOL
-            "Install CMake package config files for ${name}"
-        )
+        set(${_pkg_var} OFF CACHE BOOL "Install CMake package config files for ${name}")
     endif()
 
     set(_install_config OFF)
@@ -314,10 +279,7 @@ function(asio_install_library name)
     # ----------------------------------------
     set(_asio_find_deps "")
     foreach(dep IN ITEMS ${ASIO_DEPENDENCIES})
-        message(
-            VERBOSE
-            "asio-install-library(${name}): Add find_dependency(${dep})"
-        )
+        message(VERBOSE "asio-install-library(${name}): Add find_dependency(${dep})")
         string(APPEND _asio_find_deps "find_dependency(${dep})\n")
     endforeach()
     set(ASIO_FIND_DEPENDENCIES "${_asio_find_deps}")

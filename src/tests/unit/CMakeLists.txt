@@ -152,23 +152,21 @@ endif()
 add_test(
     NAME install-to-stagedir
     COMMAND
-        ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --prefix
-        ${CMAKE_BINARY_DIR}/stagedir --config $<CONFIG>
+        ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --prefix ${CMAKE_BINARY_DIR}/stagedir --config
+        $<CONFIG>
 )
 add_test(
     NAME find-package-test
     COMMAND
         ${CMAKE_CTEST_COMMAND} # --verbose
-        --output-on-failure -C $<CONFIG> --build-and-test
-        "${CMAKE_SOURCE_DIR}/src/examples"
-        "${CMAKE_CURRENT_BINARY_DIR}/find-package-test"
-        --build-generator "Ninja" # XXX ${CMAKE_GENERATOR}
+        --output-on-failure -C $<CONFIG> --build-and-test "${CMAKE_SOURCE_DIR}/src/examples"
+        "${CMAKE_CURRENT_BINARY_DIR}/find-package-test" --build-generator
+        "Ninja" # XXX ${CMAKE_GENERATOR}
         --build-makeprogram ${CMAKE_MAKE_PROGRAM} #
         --build-options #
         "-D ASIO_IMPORT_STD=${ASIO_IMPORT_STD}" #
         "-D CMAKE_BUILD_TYPE=$<CONFIG>" #
-        "-D CMAKE_BUILD_RPATH=${CMAKE_BUILD_RPATH}"
-        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+        "-D CMAKE_BUILD_RPATH=${CMAKE_BUILD_RPATH}" "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
         "-D CMAKE_CXX_EXTENSIONS=${CMAKE_CXX_EXTENSIONS}"
         "-D CMAKE_CXX_SCAN_FOR_MODULES=${CMAKE_CXX_SCAN_FOR_MODULES}"
         "-D CMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD}"

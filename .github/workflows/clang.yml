@@ -29,15 +29,15 @@ jobs:
         with: { python-version: "3.13" }
 
       - name: Install libssl-dev
-        run: apt-get update -qq && apt-get install -y -qq libssl-dev
+        run: apt-get update -qq && apt-get install -y -qq libssl-dev unzip
 
-      - name: Setup Cpp
-        uses: aminya/setup-cpp@v1
+      - name: Setup build environment
+        uses: lukka/get-cmake@latest
         with:
-          # compiler: llvm-${{ matrix.version }}
-          cmake: 4.2.3
-          ninja: 1.13.0
-          gcovr: true
+          cmakeVersion: "^4.3.4"
+          # (e.g., matching any 4.x.x version equal to or greater than 4.3.4, but below 5.0.0)
+          ninjaVersion: "~1.13.0"
+          # (matching >= 1.13.0 and < 1.14.0)
 
       - name: Configure CMake
         env:

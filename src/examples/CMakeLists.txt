@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30...4.3)
+cmake_minimum_required(VERSION 3.30...4.4)
 
 include(../../cmake/enable_import_std.cmake)
 
@@ -16,15 +16,9 @@ else()
     add_subdirectory(cpp20)
 endif()
 
-add_executable(
-    example.completion_executor
-    cpp20/invocation/completion_executor.cpp
-)
+add_executable(example.completion_executor cpp20/invocation/completion_executor.cpp)
 target_link_libraries(example.completion_executor PRIVATE asio::asio)
-target_compile_features(
-    example.completion_executor
-    PRIVATE cxx_std_${CMAKE_CXX_STANDARD}
-)
+target_compile_features(example.completion_executor PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
 if(ASIO_IMPORT_STD)
     message(STATUS "Build asio with target PROPERTY CXX_MODULE_STD ON")
     set_property(TARGET example.completion_executor PROPERTY CXX_MODULE_STD ON)

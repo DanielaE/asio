@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30...4.3)
+cmake_minimum_required(VERSION 3.30...4.4)
 
 include(cmake/enable_import_std.cmake)
 
@@ -34,28 +34,18 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     endif()
 endif()
 
-message(
-    STATUS
-    "Cmake is: ${CMAKE_VERSION} modules scan: ${CMAKE_CXX_SCAN_FOR_MODULES}"
-)
+message(STATUS "Cmake is: ${CMAKE_VERSION} modules scan: ${CMAKE_CXX_SCAN_FOR_MODULES}")
 
 # ---- Declare libraries ----
 
-file(
-    GLOB_RECURSE _asio_implementation
-    "include/asio/*.hpp"
-    "include/asio/*.ipp"
-)
+file(GLOB_RECURSE _asio_implementation "include/asio/*.hpp" "include/asio/*.ipp")
 
 #==============================
 # asio interface library
 #==============================
 add_library(asio_header INTERFACE)
 add_library(asio::asio_header ALIAS asio_header)
-target_sources(
-    asio_header
-    INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${_asio_implementation}
-)
+target_sources(asio_header INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${_asio_implementation})
 target_compile_features(asio_header INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 target_compile_definitions(
     asio_header
@@ -86,7 +76,7 @@ if(NOT ASIO_ENABLE_SSL)
 endif()
 
 foreach(header in LISTS ${_public_headers})
-  message(DEBUG "${header}")
+    message(DEBUG "${header}")
 endforeach()
 
 add_library(asio STATIC)
@@ -95,15 +85,10 @@ target_sources(
     asio
     PUBLIC
         FILE_SET modules TYPE CXX_MODULES BASE_DIRS module FILES module/asio.ixx
-        FILE_SET HEADERS
-            BASE_DIRS include module
-            FILES ${_public_headers} module/asio-gmf.h
+        FILE_SET HEADERS BASE_DIRS include module FILES ${_public_headers} module/asio-gmf.h
 )
 target_compile_features(asio PRIVATE cxx_std_${CMAKE_CXX_STANDARD})
-set_target_properties(
-    asio
-    PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL}
-)
+set_target_properties(asio PROPERTIES VERIFY_INTERFACE_HEADER_SETS ${PROJECT_IS_TOP_LEVEL})
 target_link_libraries(asio PUBLIC asio_header)
 
 option(ASIO_IMPORT_STD "Enable 'import std;' support for ASIO module" OFF)
@@ -120,16 +105,10 @@ if(ASIO_ENABLE_SSL)
     target_compile_definitions(asio PUBLIC ASIO_USE_SSL)
     # Add OpenSSL include directories for module compilation
     target_link_libraries(asio PUBLIC OpenSSL::SSL OpenSSL::Crypto)
-    message(
-        STATUS
-        "ASIO: SSL support enabled with OpenSSL at ${OPENSSL_INCLUDE_DIR}"
-    )
+    message(STATUS "ASIO: SSL support enabled with OpenSSL at ${OPENSSL_INCLUDE_DIR}")
     set(_dependencies DEPENDENCIES OpenSSL)
 else()
-    message(
-        WARNING
-        "ASIO: SSL support disabled (use -DASIO_ENABLE_SSL=ON to enable)"
-    )
+    message(WARNING "ASIO: SSL support disabled (use -DASIO_ENABLE_SSL=ON to enable)")
     set(_dependencies)
 endif()
 

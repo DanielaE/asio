@@ -27,11 +27,13 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.13" }
 
-      - name: Setup Cpp
-        uses: aminya/setup-cpp@v1
+      - name: Setup build environment
+        uses: lukka/get-cmake@latest
         with:
-          cmake: 4.2.3
-          ninja: 1.13.0
+          cmakeVersion: "^4.3.4"
+          # (e.g., matching any 4.x.x version equal to or greater than 4.3.4, but below 5.0.0)
+          ninjaVersion: "~1.13.0"
+          # (matching >= 1.13.0 and < 1.14.0)
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1

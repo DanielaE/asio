@@ -30,7 +30,7 @@
       "cacheVariables": {
         "ASIO_IMPORT_STD": true,
         "ASIO_BUILD_EXAMPLES": true,
-        "CMAKE_CXX_EXTENSIONS": true,
+        "CMAKE_CXX_EXTENSIONS": false,
         "CMAKE_CXX_SCAN_FOR_MODULES": true,
         "CMAKE_CXX_STANDARD": "23",
         "CMAKE_CXX_STANDARD_REQUIRED": true,
